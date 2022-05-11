@@ -1,25 +1,39 @@
 import Link from 'next/link';
-import { GET_DATA_COMMERCE } from "../graphql/queries";
-import { useQuery } from "@apollo/client";
-import { useRouter } from "next/router";
-import { Day, Articles, Card } from "../components/lib"
+import { GET_DATA_COMMERCE, GET_ID_COMMERCES } from "../../graphql/queries";
+import { ApolloClient, InMemoryCache  } from "@apollo/client";
+import { Day, Articles, Card } from "../../components/lib"
 
-export default function Commerce() {
-  const heightBanner = 400;
+const client = new ApolloClient({
+  uri: 'http://localhost:8082/query',
+  cache: new InMemoryCache()
+});
 
-  const router = useRouter();
-  const { id: id } = router.query;
-  const {loading, error, data} = useQuery(GET_DATA_COMMERCE, {
-    variables: { id },
-  })
+export async function getStaticPaths() {
+  const { loading, error, data } = await client.query({ query: GET_ID_COMMERCES });
+  const paths = data.commerces.edges.map((edge) => ({
+     params: { id: edge.node.id },
+  }));
+
+  return {
+    paths: paths || [],
+    fallback: false
+  };
+}
+
+export async function getStaticProps({params}) {
+  const {loading, error, data} = await client.query({query : GET_DATA_COMMERCE, variables: { id: params.id }})
+
   if(loading)
     return "loading"
   if(error){
-    console.log(error)
     return "error"
   }
-  console.log(data)
+  return {
+    props: { data },
+  }
+}
 
+export default function Commerce({ data }) {
   return (
     <>
       <div className='h-full w-full relative'>
