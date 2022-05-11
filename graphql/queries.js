@@ -1,17 +1,21 @@
 import {gql} from "@apollo/client"
 
-export const GET_ID_COMMERCES = gql`{
-    commerces {
+
+export const GET_ID_COMMERCES = gql`
+query commerces($first: Int) {
+    commerces(first: $first) {
         edges {
             node {
                 id
+                name
             }
         }
     }
 }`;
 
-export const GET_COMMERCES = gql`{
-    commerces {
+export const GET_COMMERCES = gql`
+query commerces($first: Int) {
+    commerces(first: $first) {
         edges {
             node {
                 id

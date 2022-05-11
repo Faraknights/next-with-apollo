@@ -1,7 +1,8 @@
 import Link from 'next/link';
-import { GET_DATA_COMMERCE, GET_ID_COMMERCES } from "../../graphql/queries";
+import { GET_DATA_COMMERCE, GET_ID_COMMERCES } from "../../../graphql/queries";
 import { ApolloClient, InMemoryCache  } from "@apollo/client";
-import { Day, Articles, Card } from "../../components/lib"
+import { Day, Articles, Card } from "../../../components/lib"
+import slugify from '../../../utils/slugify'
 
 const client = new ApolloClient({
   uri: 'http://localhost:8082/query',
@@ -9,9 +10,9 @@ const client = new ApolloClient({
 });
 
 export async function getStaticPaths() {
-  const { loading, error, data } = await client.query({ query: GET_ID_COMMERCES });
+  const { loading, error, data } = await client.query({ query: GET_ID_COMMERCES, variables: { first: 99999 }});
   const paths = data.commerces.edges.map((edge) => ({
-     params: { id: edge.node.id },
+     params: { id: edge.node.id , nameCommerce: slugify(edge.node.name) },
   }));
 
   return {
