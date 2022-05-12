@@ -1,10 +1,6 @@
-import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+import { ApolloProvider } from "@apollo/client";
+import client from '../apollo-client'
 import '../styles/globals.css'
-
-const client = new ApolloClient({
-  uri: "http://localhost:8082/query",
-  cache: new InMemoryCache(),
-});
 
 function MyApp({ Component, pageProps }) {
   return (

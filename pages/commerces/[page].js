@@ -1,15 +1,11 @@
 import Head from "next/head";
 import { GET_COMMERCES, GET_ID_COMMERCES } from "../../graphql/queries";
-import { ApolloClient, InMemoryCache } from "@apollo/client";
 import Link from 'next/link'
 import { slugify, pagination } from '../../utils/lib'
 import { Pagination } from '../../components/lib'
+import client from '../../apollo-client'
 
 const nbCommercePage = 1;
-const client = new ApolloClient({
-  uri: 'http://localhost:8082/query',
-  cache: new InMemoryCache()
-});
 
 export async function getStaticPaths() {
     const { loading, error, data } = await client.query({ query: GET_ID_COMMERCES, variables: { first: 99999 }});
