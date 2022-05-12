@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { GET_DATA_COMMERCE, GET_ID_COMMERCES } from "../../../graphql/queries";
+import { GET_DATA_COMMERCE, GET_ID_COMMERCES } from "../../../graphql/querieCommerce";
 import { Schedule, Products, Card, Description, Contact } from "../../../components/lib"
 import slugify from '../../../utils/slugify'
 import client from '../../../../apollo-client'

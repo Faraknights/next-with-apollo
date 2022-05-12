@@ -1,4 +1,4 @@
-import { GET_COMMERCES, GET_ID_COMMERCES } from "../../graphql/queries";
+import { GET_COMMERCES, GET_ID_COMMERCES } from "../../graphql/querieCommerce";
 import Link from 'next/link'
 import { Pagination } from '../../components/lib'
 import client from '../../../apollo-client'
@@ -31,12 +31,11 @@ export async function getStaticProps({params}: {params: {page : string}}) {
     let tmp = data.commerces.edges.slice((parseInt(params.page) - 1) * nbCommercePage, (parseInt(params.page)) * nbCommercePage)
 
     return {
-        props: { data: {commerces: {edges: tmp}}, nbPage, currentPage: params.page},
+        props: { data: {commerces: {edges: tmp}}, nbPage, currentPage: parseInt(params.page)},
     }
 }
 
 export default function listCommerces({ data, nbPage, currentPage}: {data: ListCommercesProps, nbPage: number, currentPage: number}) {
-    console.log(currentPage, nbPage)
   return (
     <main className="h-full w-full flex items-center justify-center bg-[#fafafe] flex-col">
       <h1 className="m-5">Commerces</h1>
