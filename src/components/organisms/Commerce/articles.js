@@ -1,4 +1,4 @@
-import { Card } from '../lib'
+import { Card } from '../../lib'
 
 // Converti la valeur unit en une unité lisible
 const getUnitLabel = (unit) => {

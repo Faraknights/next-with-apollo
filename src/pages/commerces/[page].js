@@ -1,9 +1,8 @@
-import Head from "next/head";
 import { GET_COMMERCES, GET_ID_COMMERCES } from "../../graphql/queries";
 import Link from 'next/link'
-import { slugify, pagination } from '../../utils/lib'
 import { Pagination } from '../../components/lib'
-import client from '../../apollo-client'
+import client from '../../../apollo-client'
+import slugify from '../../utils/slugify'
 
 const nbCommercePage = 1;
 
