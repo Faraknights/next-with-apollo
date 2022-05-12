@@ -63,14 +63,14 @@ export default function Pagination (options: PaginationProps){
 
     return (
         <div className="bg-white rounded-md shadow-[2px_2px_6px_-1px_#DDD] mb-6 p-3 flex">
-            {structPagination.map((e) => (
-            <Link href={e.uri}>
-                <div className={e.clickable ? "cursor-pointer rounded-md mx-1 " + (e.value == currentPage ? "bg-[#ff8c60]" : "hover:bg-gray-100") : "cursor-default pointer-events-none"}>
-                    <div className={"h-7 w-7 font-semibold p-2 mx-[1px] flex items-center justify-center " + (e.value == currentPage ? "text-white" : "text-gray-400") } >
-                        {e.label}
-                    </div>
-                </div>
-            </Link>
+            {structPagination.map((e, i) => (
+              <Link key={i} href={e.uri}>
+                  <div className={e.clickable ? "cursor-pointer rounded-md mx-1 " + (e.value == currentPage ? "bg-[#ff8c60]" : "hover:bg-gray-100") : "cursor-default pointer-events-none"}>
+                      <div className={"h-7 w-7 font-semibold p-2 mx-[1px] flex items-center justify-center " + (e.value == currentPage ? "text-white" : "text-gray-400") } >
+                          {e.label}
+                      </div>
+                  </div>
+              </Link>
             ))}
         </div>
     )
