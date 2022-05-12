@@ -4,7 +4,7 @@ import { Pagination } from '../../components/lib'
 import client from '../../../apollo-client'
 import slugify from '../../utils/slugify'
 
-const nbCommercePage = 1;
+const nbCommercePage = 2;
 
 export async function getStaticPaths() {
     const { loading, error, data } = await client.query({ query: GET_ID_COMMERCES, variables: { first: 99999 }});

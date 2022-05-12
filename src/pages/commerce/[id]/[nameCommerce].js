@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { GET_DATA_COMMERCE, GET_ID_COMMERCES } from "../../../graphql/queries";
-import { Day, Articles, Card } from "../../../components/lib"
+import { Schedule, Articles, Card, Description, Contact } from "../../../components/lib"
 import slugify from '../../../utils/slugify'
 import client from '../../../../apollo-client'
 
@@ -28,7 +28,7 @@ export default function Commerce({ data }) {
     <>
       <div className='h-full w-full relative'>
         {/* Bouton de retour à la page d'accueil */}
-        <Link href="/">
+        <Link href="/commerces/1">
           <div className={'p-3 w-full cursor-pointer fixed top-0 left-0 right-0 z-20 h-[50px] bg-white'}>
               <a>{'← Retour'}</a>
           </div>
@@ -56,38 +56,21 @@ export default function Commerce({ data }) {
         <div className={`z-10 mt-[400px] bg-[#fafafe] h-full grid grid-cols-2`}>
           <div className='translate-y-[-60px]'>
             <Card>
-              <div className='description'>{data.commerce.description}</div>
+              <Description label={data.commerce.description}></Description>
             </Card>
             <Articles articles={data.commerce.products.edges}/>
           </div>
           <div className='translate-y-[-60px]'>
             <Card>
-              <div>
-                <Day label="Lundi" day={data.commerce.businessHours.monday}/>
-                <Day label="Mardi" day={data.commerce.businessHours.tuesday}/>
-                <Day label="Mercredi" day={data.commerce.businessHours.wednesday}/>
-                <Day label="Jeudi" day={data.commerce.businessHours.thursday}/>
-                <Day label="Vendredi" day={data.commerce.businessHours.friday}/>
-                <Day label="Samedi" day={data.commerce.businessHours.saturday}/>
-                <Day label="Dimanche" day={data.commerce.businessHours.sunday}/>
-              </div>
+              <Schedule businessHours={data.commerce.businessHours}/>
             </Card>
             <Card>
-              <div className='grid grid-cols-2'>
-                <img 
-                  className='w-full rounded-2xl col-[1/3] mb-3'
-                  src="https://www.moroccojewishtimes.com/wp-content/uploads/2021/09/fadc14dd.jpg"
-                />
-                <div className='flex flex-col'>
-                  <span className='font-medium'>Coordonnées</span>
-                  <span>{data.commerce.email}</span>
-                  <span>{data.commerce.phone}</span>
-                </div>
-                <div className='flex flex-col'>
-                  <span className='font-medium'>Adresse</span>
-                  <span>{data.commerce.address}</span>
-                </div>
-              </div>
+              <Contact 
+                email={data.commerce.email}
+                phone={data.commerce.phone}
+                address={data.commerce.address}
+                map={false}
+              />
             </Card>
           </div>
         </div>
