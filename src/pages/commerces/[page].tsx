@@ -3,11 +3,18 @@ import Link from 'next/link'
 import { Pagination } from '../../components/lib'
 import client from '../../../apollo-client'
 import slugify from '../../utils/slugify'
+import {ListCommercesUnitProps} from '../commerce/[id]/[nameCommerce]'
 
 const nbCommercePage = 2;
 
+interface ListCommercesProps {
+  commerces: {
+    edges: Array<ListCommercesUnitProps>
+  }
+}
+
 export async function getStaticPaths() {
-    const { loading, error, data } = await client.query({ query: GET_ID_COMMERCES, variables: { first: 99999 }});
+    const { data } = await client.query({ query: GET_ID_COMMERCES, variables: { first: 99999 }});
     const paths = [...Array(Math.ceil(data.commerces.edges.length/nbCommercePage))].map((edge, i) => ({
        params: { page: (i + 1).toString() },
     }));
@@ -17,18 +24,18 @@ export async function getStaticPaths() {
     };
 };
 
-export async function getStaticProps({params}) {
-    const {data} =  await client.query({ query: GET_COMMERCES, variables: { first: 99999 }})
+export async function getStaticProps({params}: {params: {page : string}}) {
+    const { data} =  await client.query({ query: GET_COMMERCES, variables: { first: 99999 }})
     const nbPage = Math.ceil(data.commerces.edges.length / nbCommercePage)
     
-    let tmp = data.commerces.edges.slice((params.page - 1) * nbCommercePage, (params.page) * nbCommercePage)
+    let tmp = data.commerces.edges.slice((parseInt(params.page) - 1) * nbCommercePage, (parseInt(params.page)) * nbCommercePage)
 
     return {
         props: { data: {commerces: {edges: tmp}}, nbPage, currentPage: params.page},
     }
 }
 
-export default function Main({ data, nbPage, currentPage}) {
+export default function listCommerces({ data, nbPage, currentPage}: {data: ListCommercesProps, nbPage: number, currentPage: number}) {
     console.log(currentPage, nbPage)
   return (
     <main className="h-full w-full flex items-center justify-center bg-[#fafafe] flex-col">

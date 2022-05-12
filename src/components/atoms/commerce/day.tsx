@@ -1,4 +1,9 @@
-export default function Day(options) {
+export interface DayProps{
+    opening: string;
+    closing: string;
+}
+
+export default function Day(options : {label : string, day : Array<DayProps>}) {
     const { label: label, day : day } = options;
     let text = "";
     if(day && day.length){

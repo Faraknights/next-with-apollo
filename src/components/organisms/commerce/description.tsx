@@ -1,4 +1,4 @@
-export default function description (options) {
+export default function description (options: {label : string}) {
     const {label} = options
     return (
         <>

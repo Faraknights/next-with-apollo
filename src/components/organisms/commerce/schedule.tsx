@@ -1,6 +1,17 @@
-import Day from '../../molecules/commerce/day'
+import Day from '../../atoms/commerce/day'
+import {DayProps} from '../../atoms/commerce/day'
 
-export default function schedule( options ){
+export interface ScheduleProps {
+    monday: Array<DayProps>;
+    tuesday: Array<DayProps>;
+    wednesday: Array<DayProps>;
+    thursday: Array<DayProps>;
+    friday: Array<DayProps>;
+    saturday: Array<DayProps>;
+    sunday: Array<DayProps>;
+}
+
+export default function schedule( options: {businessHours : ScheduleProps} ){
     const {businessHours} = options
     return (
         <div>

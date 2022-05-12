@@ -1,6 +1,5 @@
 import {gql} from "@apollo/client"
 
-
 export const GET_ID_COMMERCES = gql`
 query commerces($first: Int) {
     commerces(first: $first) {

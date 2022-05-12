@@ -1,6 +1,10 @@
 
-// Converti la valeur unit en une unité lisible
-const getUnitLabel = (unit) => {
+/**
+ * Converti la valeur unit en une unité lisible
+ * @param unit string
+ * @returns libellé de l'unité
+ */
+const getUnitLabel = (unit: string) => {
     switch (unit) {
         case 'unit':
             return 'pièce'
@@ -9,8 +13,15 @@ const getUnitLabel = (unit) => {
     }
 }
 
-export default function article (options){
-    const {price, unit, name, isBreton, picture} = options
+interface ArticleProps {
+    price: string;
+    unit: string;
+    name: string;
+    isBreton: boolean;
+}
+
+export default function article (options: ArticleProps){
+    const {price, unit, name, isBreton} = options
     return (
         <>
             <div className='w-full pb-[100%] bg-[#DDD] rounded-2xl relative overflow-hidden mb-2'>

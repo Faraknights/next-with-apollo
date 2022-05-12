@@ -1,10 +1,17 @@
-import Map from '../../molecules/commerce/Map'
+import Map from '../../atoms/commerce/Map'
 
-export default function contact (options) {
-    const {email, phone, address, map} = options
+interface ContactProps {
+    email: string;
+    phone: string;
+    address: string;
+    map: boolean;
+}
+
+export default function contact (options: ContactProps) {
+    const {email, phone, address} = options
     return (
         <div className='grid grid-cols-2'>
-            <Map map={map}/>
+            <Map/>
             <div className='flex flex-col'>
                 <span className='font-medium'>Coordonnées</span>
                 <span>{email}</span>

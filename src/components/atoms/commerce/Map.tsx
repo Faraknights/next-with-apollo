@@ -1,5 +1,4 @@
-export default function map(options){
-    const {map} = options
+export default function map(){
     //Ne retourne qu'une image, fonctionnalité à developper
     return (
         <img 

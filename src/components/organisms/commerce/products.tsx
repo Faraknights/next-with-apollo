@@ -1,11 +1,22 @@
 import { Card } from '../../lib'
-import Article from '../../molecules/commerce/article'
+import Article from '../../atoms/commerce/article'
 
-export default function Articles(options) {
-    const { articles : articleArray } = options;
+export interface ProductProps {
+    node: {
+        id: string;
+        name: string; 
+        price:string; 
+        unit: string; 
+        isBreton: boolean;
+    }
+}
+
+export default function Product(options : {articles : Array<ProductProps>}) {
+    console.log(options)
+    const { articles: articleArray } = options;
     return (
         <div className='grid grid-cols-3 articles'>
-            {articleArray.map(element => (
+            {articleArray.map((element : ProductProps) => (
                 <Card key={element.node.id}>
                     <Article 
                         name={element.node.name} 

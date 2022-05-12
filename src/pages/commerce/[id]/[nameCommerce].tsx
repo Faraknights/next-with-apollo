@@ -1,13 +1,33 @@
 import Link from 'next/link';
 import { GET_DATA_COMMERCE, GET_ID_COMMERCES } from "../../../graphql/queries";
-import { Schedule, Articles, Card, Description, Contact } from "../../../components/lib"
+import { Schedule, Products, Card, Description, Contact } from "../../../components/lib"
 import slugify from '../../../utils/slugify'
 import client from '../../../../apollo-client'
+import {ProductProps} from '../../../components/organisms/commerce/products'
+import {ScheduleProps} from '../../../components/organisms/commerce/schedule'
+
+export interface CommerceProps {
+  id: string;
+  name: string;
+  storekeeperWord: string;
+  description: string;
+  products: {
+    edges: Array<ProductProps>
+  }
+  businessHours: ScheduleProps; 
+  email: string;
+  phone: string;
+  address: string;
+}
+
+export interface ListCommercesUnitProps {
+  node:  CommerceProps
+}
 
 export async function getStaticPaths() {
-  const { loading, error, data } = await client.query({ query: GET_ID_COMMERCES, variables: { first: 99999 }});
-  const paths = data.commerces.edges.map((edge) => ({
-     params: { id: edge.node.id , nameCommerce: slugify(edge.node.name) },
+  const { data } = await client.query({ query: GET_ID_COMMERCES, variables: { first: 99999 }});
+  const paths = data.commerces.edges.map((commerce: ListCommercesUnitProps) => ({
+     params: { id: commerce.node.id , nameCommerce: slugify(commerce.node.name) },
   }));
 
   return {
@@ -16,14 +36,14 @@ export async function getStaticPaths() {
   };
 }
 
-export async function getStaticProps({params}) {
+export async function getStaticProps({params} : {params: {id: string}}) {
   const { data } = await client.query({query : GET_DATA_COMMERCE, variables: { id: params.id }})
   return {
     props: { data },
   }
 }
 
-export default function Commerce({ data }) {
+export default function Commerce({ data } : {data: {commerce : CommerceProps}}) {
   return (
     <>
       <div className='h-full w-full relative'>
@@ -58,7 +78,7 @@ export default function Commerce({ data }) {
             <Card>
               <Description label={data.commerce.description}></Description>
             </Card>
-            <Articles articles={data.commerce.products.edges}/>
+            <Products articles={data.commerce.products.edges}/>
           </div>
           <div className='translate-y-[-60px]'>
             <Card>

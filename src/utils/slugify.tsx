@@ -1,5 +1,9 @@
-export default (string) => {
-    
+/**
+ * Retourne le slug de la chaîne
+ * @param {string} string 
+ * @returns {string}
+ */
+export default function (string: string) {
     string = string.replace(/^\s+|\s+$/g, ''); // trim
     string = string.toLowerCase();
   
