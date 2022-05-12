@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { GET_DATA_COMMERCE, GET_ID_COMMERCES } from "../../../graphql/querieCommerce";
+import { GET_DATA_COMMERCE, GET_ID_COMMERCES } from "../../../graphql/queryCommerce";
 import { Schedule, Products, Card, Description, Contact } from "../../../components/lib"
 import slugify from '../../../utils/slugify'
 import client from '../../../../apollo-client'
@@ -27,7 +27,7 @@ export interface ListCommercesUnitProps {
 export async function getStaticPaths() {
   const { data } = await client.query({ query: GET_ID_COMMERCES, variables: { first: 99999 }});
   const paths = data.commerces.edges.map((commerce: ListCommercesUnitProps) => ({
-     params: { id: commerce.node.id , nameCommerce: slugify(commerce.node.name) },
+     params: { id: commerce.node.id , storeKeeperWord: slugify(commerce.node.storekeeperWord) },
   }));
 
   return {

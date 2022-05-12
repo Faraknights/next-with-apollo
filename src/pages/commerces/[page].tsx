@@ -1,9 +1,9 @@
-import { GET_COMMERCES, GET_ID_COMMERCES } from "../../graphql/querieCommerce";
+import { GET_COMMERCES, GET_ID_COMMERCES } from "../../graphql/queryCommerce";
 import Link from 'next/link'
 import { Pagination } from '../../components/lib'
 import client from '../../../apollo-client'
 import slugify from '../../utils/slugify'
-import {ListCommercesUnitProps} from '../commerce/[id]/[nameCommerce]'
+import {ListCommercesUnitProps} from '../commerce/[id]/[storeKeeperWord]'
 
 const nbCommercePage = 1;
 
@@ -42,7 +42,7 @@ export default function listCommerces({ data, nbPage, currentPage}: {data: ListC
       <div className="w-full h-full flex flex-col items-center justify-between">
         <div className="w-full flex flex-col items-center">
           {data.commerces.edges.map(element => (
-            <Link key={element.node.id} href={`/commerce/${encodeURIComponent(element.node.id)}/${encodeURIComponent(slugify(element.node.name))}`}>
+            <Link key={element.node.id} href={`/commerce/${encodeURIComponent(element.node.id)}/${encodeURIComponent(slugify(element.node.storekeeperWord))}`}>
               <div className="w-1/2 mb-5 cursor-pointer border border-solid border-gray-200 p-4 rounded-lg bg-white">
                 <h3 className="">{element.node.name}</h3>
                 <span>{element.node.description}</span>

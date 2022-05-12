@@ -6,7 +6,7 @@ query commerces($first: Int) {
         edges {
             node {
                 id
-                name
+                storekeeperWord
             }
         }
     }
@@ -20,6 +20,7 @@ query commerces($first: Int) {
                 id
                 name
                 description
+                storekeeperWord
             }
         }
     }
