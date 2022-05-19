@@ -4,10 +4,12 @@ import Article from '../../atoms/commerce/article'
 export interface ProductProps {
     node: {
         id: string;
+        description: String;
         name: string; 
         price:string; 
         unit: string; 
         isBreton: boolean;
+        commerceID: String;
     }
 }
 

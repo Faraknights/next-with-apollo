@@ -4,8 +4,9 @@ import { Pagination } from '../../components/lib'
 import client from '../../../apollo-client'
 import slugify from '../../utils/slugify'
 import {ListCommercesUnitProps} from '../commerce/[id]/[storeKeeperWord]'
+import Header from "../../components/organisms/header";
 
-const nbCommercePage = 1;
+const nbCommercePage = 2;
 
 interface ListCommercesProps {
   commerces: {
@@ -38,6 +39,7 @@ export async function getStaticProps({params}: {params: {page : string}}) {
 export default function listCommerces({ data, nbPage, currentPage}: {data: ListCommercesProps, nbPage: number, currentPage: number}) {
   return (
     <main className="h-full w-full flex items-center justify-center bg-[#fafafe] flex-col">
+      <Header/>
       <h1 className="m-5">Commerces</h1>
       <div className="w-full h-full flex flex-col items-center justify-between">
         <div className="w-full flex flex-col items-center">
