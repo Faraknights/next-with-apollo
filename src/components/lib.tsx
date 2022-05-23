@@ -6,10 +6,10 @@ import Contact from './organisms/commerce/contact'
 import Description from './organisms/commerce/description'
 
 export {
-    Card, 
-    Products, 
-    Schedule,
-    Pagination,
-    Description,
-    Contact
+	Card, 
+	Products, 
+	Schedule,
+	Pagination,
+	Description,
+	Contact
 };
