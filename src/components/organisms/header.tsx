@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { KeyedMutator } from 'swr';
 import clientWithHeader from '../../apollo/clientWithHeader';
 import { GET_CLIENT, Client } from '../../graphql/client';
@@ -16,16 +16,17 @@ interface HeaderProps {
 export default function Header () {
 
 	const [client, setClient] = useState({} as Client)
-
 	const {user, mutateUser} = useUser()
-	async function GetUser() {
-		const { data: client } = await clientWithHeader.query({ query: GET_CLIENT, context :{ accessToken : user!.jwt} });
-		setClient(client.user)
-	}
-	if(user)
-		GetUser()
 
-	console.log(client)
+	useEffect(() => {
+		async function GetUser() {
+			const { data: client } = await clientWithHeader.query({ query: GET_CLIENT, context :{ accessToken : user!.jwt} });
+			setClient(client.user)
+		}
+		if(user)
+			GetUser()
+	}, [])
+	
 
 	return (
 		<header className='w-full p-2 bg-white shadow-md flex justify-between'>
@@ -46,7 +47,7 @@ export default function Header () {
 					<>
 						<span className='mr-3'>{client.firstName}</span>
 						<button 
-							className='mr-4 text-white bg-red-500 px-2  cursor-pointer rounded-xl'
+							className=' h-full mr-4 text-white bg-red-500 px-2  cursor-pointer rounded-xl'
 							onClick={async e => {
 								mutateUser(
 									await fetchJson("/api/logout", {
@@ -58,8 +59,8 @@ export default function Header () {
 					</>
 				) || ( 
 					<Link href={"/login"}>
-						<a>
-							<button className='mr-4 text-white bg-orange-400 px-2  cursor-pointer rounded-xl'>Se connecter</button>
+						<a className='block h-full'>
+							<button className='h-full mr-4 text-white bg-orange-400 px-2  cursor-pointer rounded-xl'>Se connecter</button>
 						</a>
 					</Link>
 				)}
