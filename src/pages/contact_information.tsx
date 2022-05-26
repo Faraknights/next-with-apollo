@@ -1,8 +1,23 @@
 import Header from '../components/organisms/header';
 import Link from 'next/link';
 import RadioProgression from '../components/atoms/commerce/radioProgression';
+import { useEffect, useState } from 'react';
+import { BasketProps } from './basket';
+import useUser from '../lib/useUser';
+import Router from 'next/router';
 
 export default function listCommerces() {
+	const [basket, setBasket] = useState({} as BasketProps)
+	const {user} = useUser()
+
+	useEffect(() => {
+		if(!user?.jwt){
+			Router.push("/basket")
+		} else {
+			const newBasket = localStorage.getItem("basket")
+			setBasket(JSON.parse(newBasket!))
+		}
+  }, []);
 
   return (
 	<main className="h-full w-full flex items-center justify-center bg-[#fafafe] flex-col">

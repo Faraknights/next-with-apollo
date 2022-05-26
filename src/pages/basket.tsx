@@ -75,7 +75,7 @@ export default function listCommerces() {
 				</div>
 				<div className='bg-white mt-3 p-4 rounded-lg w-1/2 flex flex-col shadow-md'>
 					{ basket.commerces.map (commerce => (
-						<>
+						<div key={commerce.commerceID.toString()}>
 							<h2>Commerce {commerce.commerceID}</h2>
 							<h3>Produit</h3>
 							{ commerce.products.map(product => (
@@ -83,7 +83,7 @@ export default function listCommerces() {
 									{product.productID} - x{product.quantity}
 								</p>
 							))}
-						</>
+						</div>
 					))}
 				</div>
 				<a onClick={() => {

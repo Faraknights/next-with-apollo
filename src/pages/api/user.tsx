@@ -1,10 +1,10 @@
-import withSession, { NextIronRequest } from "../../lib/session";
-import { NextApiResponse } from "next";
+import withSession from "../../lib/session";
+import { NextApiRequest, NextApiResponse } from "next";
 
 export default withSession(
-  async function userRoute(req: NextIronRequest, res: NextApiResponse) {
+  async function userRoute(req: NextApiRequest, res: NextApiResponse) {
    res.json({
-     ...req.session.get('user')
+     ...req.session.user
    })
   }
 );

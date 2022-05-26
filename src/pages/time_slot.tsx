@@ -1,35 +1,26 @@
 import Header from '../components/organisms/header';
 import Link from 'next/link';
 import RadioProgression from '../components/atoms/commerce/radioProgression';
-import {useState} from 'react'
-
-const timeSlotsStructure = [
-	{
-		name : "test",
-		selected: -1,
-		slots: [{
-			beginning: "12:30",
-			ending: "13:30"
-		},{
-			beginning: "13:30",
-			ending: "14:30"
-		},]
-	},{
-		name : "test",
-		selected: -1,
-		slots: [{
-			beginning: "12:30",
-			ending: "13:30"
-		}]
-	},
-]
+import {useEffect, useState} from 'react'
+import { BasketProps } from './basket';
+import useUser from '../lib/useUser';
+import Router from 'next/router';
 
 //Faire plusieurs créneaux par commerce
 export default function listCommerces() {
 
 	const [page, setPage] = useState(0);
-	const [slots, setSlots] = useState(timeSlotsStructure);
-	console.log("test")
+
+	const [basket, setBasket] = useState({commerces: []} as BasketProps)
+	const {user} = useUser()
+	console.log(user)
+	useEffect(() => {
+		if(!user?.jwt){
+			Router.push("/basket")
+		}
+		const newBasket = localStorage.getItem("basket")
+		setBasket(JSON.parse(newBasket!))
+  }, []);
 
   return (
 	<main className="h-full w-full flex items-center justify-center bg-[#fafafe] flex-col">
@@ -39,31 +30,28 @@ export default function listCommerces() {
 			<RadioProgression structure={["Panier", "Créneaux",  "Coordonnées", "Confirmation"]} currentPos={2}/>
 		</div>
 	  <div className="w-full h-full flex  items-start">
-			{ slots.map((store, i) => (
-				<div className={'min-w-full flex flex-col items-center transition'} style={{transform: "translateX(-" + (page * 100).toString() + "%)"}}>
+			{ basket.commerces.map((commerce, i) => (
+				<div 
+					key={commerce.commerceID.toString()}
+					className={'min-w-full flex flex-col items-center transition'} 
+					style={{transform: "translateX(-" + (page * 100).toString() + "%)"}}
+				>
 					<div className='flex flex-col bg-white w-1/2 shadow-md rounded-lg'>
-						<span className='text-center'>choix du créneau pour le commerce {store.name}</span>
-						{ store.slots.map((slot, j) => (
-							<div className='flex p-2 justify-between'>
-								<span>{slot.beginning} - {slot.ending}</span>
-								{( store.selected == j &&(
-									<span className='cursor-default font-bold italic text-gray-700'>Sélectionné</span>
-								)) || (
-									<a 
-										className='underline text-orange-400 cursor-pointer'
-										onClick={() => {
-											setSlots((slots => {
-												let slotsCopy = [...slots];
-												slotsCopy[i].selected = j
-												return slotsCopy
-											}))
-										}}
-									>
-										Choisir ce créneau
-									</a>
-								)}
-							</div>
-						))}
+						<span className='text-center'>choix du créneau pour le commerce {commerce.commerceID}</span>
+						<div className='m-3 flex flex-col items-center'>
+							<input
+								value={new Date(commerce.pickupDate).toISOString().slice(0, 16)}
+								onChange={e => {
+									setBasket((currentBasket: any) => {
+										let stateCopy =  {...currentBasket} as BasketProps
+										console.log(e.target.value)
+										stateCopy.commerces[i].pickupDate = new Date(e.target.value)
+										return stateCopy;
+									});
+								}}
+								type="datetime-local"
+							/>
+						</div>
 					</div>
 					<div className='flex'>
 						{ i != 0 && (
@@ -76,7 +64,7 @@ export default function listCommerces() {
 								Retour
 							</button>
 						)}
-						{ (i + 1 == timeSlotsStructure.length && (
+						{ (i + 1 == basket.commerces.length && (
 							<Link href={"/contact_information"}>
 								<a>
 									<button className=" mt-4 p-2 bg-orange-400 rounded-lg text-white" >Payer</button>
