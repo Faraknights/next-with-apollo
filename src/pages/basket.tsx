@@ -6,96 +6,156 @@ import RadioProgression from '../components/atoms/commerce/radioProgression';
 import useUser from '../lib/useUser';
 import LoginPopUp from '../components/organisms/loginPopUp';
 import Router from 'next/router';
-
-export interface BasketProps {
-	commerces: Array<{
-		commerceID: String;
-		pickupDate: Date;
-		products: Array<{
-			quantity: number;
-			productID: String;
-		}>
-	}>;
-}
+import CustomButton from '../components/atoms/customButton';
+import Layout from '../components/organisms/layout';
+import getUnitLabel from "../lib/getUnitLabel";
+import { Basket, ProductBasket } from '../interfaces/basket';
 
 export default function listCommerces() {
 
-	const [basket, setBasket] = useState({commerces: []} as BasketProps)
+	const [basket, setBasket] = useState({commerces: []} as Basket)
 	const [clicked, setClicked] = useState(false)
+	const [totalPrice, setTotalPrice] = useState(0)
+	const [nbProduct, setNbProduct] = useState(0)
+	const [remise, setRemise] = useState(0)
+
+	function removeProduct(indexCommerce: number, indexProduct:number){
+		setBasket(e => {
+			let basketCopy =  {...basket} as Basket
+			basketCopy.commerces[indexCommerce].products = basketCopy.commerces[indexCommerce].products.filter((_, i) => i!=indexProduct)
+			if(!basketCopy.commerces[indexCommerce].products.length){
+				basketCopy.commerces = basketCopy.commerces.filter((_, i) => indexCommerce!=i)
+			}
+			localStorage.setItem("basket", JSON.stringify(basketCopy))
+			return basketCopy;
+		})
+	}
 
 	useEffect(() => {
 		setBasket(JSON.parse(localStorage.getItem("basket")!))
-		localStorage.setItem("basket", JSON.stringify({
-			commerces:[{
-				commerceID:"62590318a00ebcf29fe0d50f",
-				pickupDate: new Date(),
-				products: [
-					{
-						productID:"625907c0ab4a9c245ca07f0a",
-						quantity:1
-					},{
-						productID:"6259086cab4a9c245ca07f0b",
-						quantity:2
-					}
-				]
-			},{
-				commerceID:"6259647c134fe991163b5926",
-				pickupDate: new Date(),
-				products:[{
-					productID:"625965a8134fe991163b5927",
-					quantity: 1
-				}]
-			}]
-		} as BasketProps
-		))
 	}, [])
+
+	useEffect(() => {
+		let products = [] as Array<ProductBasket>
+		basket.commerces.map(e => { 
+			products = [...products, ...e.products]
+		})
+		setNbProduct(products.length)
+		if(products.length)
+			setTotalPrice(Object.values(products).reduce((a, c) =>  a + (c.price * c.quantity), 0) - remise)
+	}, [basket])
 	
 	const {user} = useUser()
 	
 
   return (
-		<main className="h-full w-full flex items-center justify-center bg-[#fafafe] flex-col">
-			<Header/>
+		<Layout>
 			{ !user && clicked && (
 				<LoginPopUp/>
 			)}
-			<h1 className="m-5">Panier</h1>
+			<h1 className="m-5 mb-8">Mon panier</h1>
 			<div className='w-1/2'>
 				<RadioProgression structure={["Panier", "Créneaux",  "Coordonnées", "Confirmation"]} currentPos={1}/>
 			</div>
 			<div className="w-full h-full flex flex-col items-center">
 				<div className='flex'>
-					<button 
+					<CustomButton
+						label="Vider le panier en cours"
+						color="red"
 						onClick={async e => {
-							localStorage.setItem( "basket", JSON.stringify({commerces : []} as BasketProps))
+							localStorage.setItem("basket", JSON.stringify({commerces : []} as Basket))
 							setBasket({commerces : []})
 						}}
-						className="m-1 p-2 bg-red-400 rounded-lg text-white"
-					>Vider le panier en cours</button>
+					/>
 				</div>
 				<div className='bg-white mt-3 p-4 rounded-lg w-1/2 flex flex-col shadow-md'>
-					{ basket.commerces.map (commerce => (
-						<div key={commerce.commerceID.toString()}>
-							<h2>Commerce {commerce.commerceID}</h2>
-							<h3>Produit</h3>
-							{ commerce.products.map(product => (
-								<p key={product.productID.toString()}>
-									{product.productID} - x{product.quantity}
-								</p>
+					{ basket.commerces.map ((commerce, i) => (
+						<div key={commerce.id}>
+							<div className='bg-primary-color-lightened pl-2 rounded text-lg font-medium text-black flex items-center justify-between'>
+								<span>{commerce.name}</span>
+								<div className='bg-white mr-2 text-sm w-5 h-5 rounded-full flex items-center justify-center'>{commerce.products.length}</div>
+							</div>
+							{ commerce.products.map((product, j) => (
+								<div key={product.id} className='grid grid-cols-[auto_1fr_auto] grid-rows-2 my-5'>
+									<div className='h-20 w-20 bg-gray-200 rounded-xl flex items-center justify-center row-[1/3] mr-4'>
+										<img 
+											className='h-2/4 opacity-60'
+											src="https://img.icons8.com/material/344/picture--v1.png" 
+											alt="logo de base d'une image"
+										/>
+									</div>
+									<span className='font-medium self-center text-lg'>{product.name}</span>
+									<CustomButton 
+										color='red'
+										label="Supprimer"
+										onClick={e => removeProduct(i,j)}
+									/>
+									<span className='self-center text-sm'>
+										<b className='font-medium text-2xl text-primary-color mr-2'>{product.price}€</b>/{getUnitLabel(product.unit)}
+									</span>
+									<div className='self-end flex items-center justify-center'>
+										<button 
+											className='h-5 w-5 rounded-full bg-primary-color text-white flex items-center justify-center text-lg font-bold'
+											onClick={e => {
+												if(product.quantity == 1){
+													removeProduct(i,j)
+												} else {
+													setBasket(e => {
+														let basketCopy = {...basket} as Basket
+														basketCopy.commerces[i].products[j].quantity--
+														localStorage.setItem("basket", JSON.stringify(basketCopy))
+														return basketCopy;
+													})
+												}
+											}}
+										>-</button>
+										<span className='mx-2'>{product.quantity}</span>
+										<button 
+											className='h-5 w-5 rounded-full bg-primary-color text-white flex items-center justify-center text-lg font-bold'
+											onClick={e => {
+												setBasket(e => {
+													let basketCopy = {...basket} as Basket
+													basketCopy.commerces[i].products[j].quantity++
+													localStorage.setItem("basket", JSON.stringify(basketCopy))
+													return basketCopy;
+												})
+											}}
+										>+</button>
+									</div>
+								</div>
 							))}
 						</div>
 					))}
 				</div>
-				<a onClick={() => {
-					if(!user){
-						setClicked(true)
-					} else {
-						Router.push('/time_slot')
-					}
-				}}>
-					<button className=" mt-4 p-2 bg-orange-400 rounded-lg text-white" >Continuer</button>
+					{(
+						<div className='flex flex-col w-1/2 my-5'>
+							<div className='flex justify-between text-lg font-semibold'>
+								<span>Sous-total ({nbProduct} article)</span>
+								<span className='place-self-end'>{nbProduct.toFixed(2)}€</span>
+							</div>
+							<div className='flex justify-between text-lg'>
+								<span>Remise</span>
+								<span className='place-self-end'>-{remise.toFixed(2)}€</span>
+							</div>
+							<div className='flex justify-between text-xl text-primary-color font-semibold'>
+								<span>Total</span>
+								<span className='place-self-end'>{totalPrice.toFixed(2)}€</span>
+							</div>
+						</div>
+					)}
+				<a
+					className='mb-5 w-1/2 flex flex-col'
+					onClick={() => {
+						if(!user){
+							setClicked(true)
+						} else {
+							Router.push('/time_slot')
+						}
+					}}
+				>
+					<CustomButton color='red' label="Passer ma commande"/>
 				</a>
 			</div>
-		</main>
+		</Layout>
   )
 }

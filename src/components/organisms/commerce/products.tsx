@@ -1,32 +1,19 @@
-import { Card } from '../../lib'
 import Article from '../../atoms/commerce/article'
+import { Commerce, ProductNode } from '../../../interfaces/commerce'
+import Card from '../card'
 
-export interface ProductProps {
-	id: string;
-	description: String;
-	name: string; 
-	price:string; 
-	unit: string; 
-	isBreton: boolean;
-	commerceID: String;
-}
-
-export interface ProductNodeProps {
-	node: ProductProps
-}
-
-export default function Product(options : {articles : Array<ProductNodeProps>}) {
-	console.log(options)
-	const { articles: articleArray } = options;
+export default function Products({ commerce } : {commerce : Commerce}) {
 	return (
 		<div className='grid grid-cols-3 articles'>
-			{articleArray.map((element : ProductNodeProps) => (
+			{commerce.products.edges.map((element : ProductNode) => (
 				<Card key={element.node.id}>
 					<Article 
+						id={element.node.id}
 						name={element.node.name} 
 						price={element.node.price} 
 						unit={element.node.unit} 
 						isBreton={element.node.isBreton}
+						commerce={commerce}
 					/>
 				</Card>
 			))}

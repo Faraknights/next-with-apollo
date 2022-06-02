@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import {
   PaymentElement,
   useStripe,
-  useElements,
-  CardElement
+  useElements
 } from "@stripe/react-stripe-js";
 import { PaymentIntentResult } from "@stripe/stripe-js";
 
@@ -13,9 +12,6 @@ export default function CheckoutForm() {
   const [isLoading, setIsLoading] = useState(false);
 
   const [message, setMessage] = useState("");
-
-	const [success, setSuccess] = useState(false)
-	const [clicked, setClicked] = useState(false)
 
   useEffect(() => {
     if (!stripe) {

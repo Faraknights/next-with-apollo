@@ -6,6 +6,7 @@ import { GET_CLIENT, Client } from '../../graphql/client';
 import fetchJson from '../../lib/fetchJson';
 import useUser from '../../lib/useUser';
 import { Login } from '../../pages/api/login';
+import CustomButton from '../atoms/customButton';
 
 interface HeaderProps {
 	user?: Login;
@@ -29,7 +30,7 @@ export default function Header () {
 	
 
 	return (
-		<header className='w-full p-2 bg-white shadow-md flex justify-between'>
+		<header className='w-full p-2 bg-white shadow-md flex justify-between items-center z-50'>
 			<nav>
 				<Link href={`/commerces/1`}>
 					<a>
@@ -46,8 +47,10 @@ export default function Header () {
 				{(user && user!.jwt &&
 					<>
 						<span className='mr-3'>{client.firstName}</span>
-						<button 
-							className=' h-full mr-4 text-white bg-red-500 px-2  cursor-pointer rounded-xl'
+						<CustomButton
+							label="Se déconnecter"
+							color='red'
+							submitButton={true}
 							onClick={async e => {
 								mutateUser(
 									await fetchJson("/api/logout", {
@@ -55,12 +58,12 @@ export default function Header () {
 									})
 								);
 							}}
-						>Se déconnecter</button>
+						/>
 					</>
 				) || ( 
 					<Link href={"/login"}>
 						<a className='block h-full'>
-							<button className='h-full mr-4 text-white bg-orange-400 px-2  cursor-pointer rounded-xl'>Se connecter</button>
+							<CustomButton label="Se connecter"/>
 						</a>
 					</Link>
 				)}

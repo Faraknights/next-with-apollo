@@ -2,12 +2,12 @@ import Header from '../components/organisms/header';
 import Link from 'next/link';
 import RadioProgression from '../components/atoms/commerce/radioProgression';
 import { useEffect, useState } from 'react';
-import { BasketProps } from './basket';
 import useUser from '../lib/useUser';
 import Router from 'next/router';
+import { Basket } from '../interfaces/basket';
 
 export default function listCommerces() {
-	const [basket, setBasket] = useState({} as BasketProps)
+	const [basket, setBasket] = useState({} as Basket)
 	const {user} = useUser()
 
 	useEffect(() => {

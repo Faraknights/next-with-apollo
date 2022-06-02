@@ -1,22 +1,12 @@
 import { GET_COMMERCES, GET_ID_COMMERCES } from "../../graphql/queryCommerce";
 import Link from 'next/link'
-import { Pagination } from '../../components/lib'
 import client from '../../apollo/client'
 import slugify from '../../lib/slugify'
-import {ListCommercesUnitProps} from '../commerce/[id]/[storeKeeperWord]'
-import Header from "../../components/organisms/header";
-import { OperationVariables, QueryOptions, useQuery } from "@apollo/client";
-import clientWithHeader from "../../apollo/clientWithHeader";
-import { GET_CLIENT } from "../../graphql/client";
-import useUser from "../../lib/useUser";
+import Layout from "../../components/organisms/layout";
+import { ListCommerces } from "../../interfaces/commerce";
+import Pagination from "../../components/organisms/pageCommerces/pagination";
 
 const nbCommercePage = 2;
-
-interface ListCommercesProps {
-	commerces: {
-		edges: Array<ListCommercesUnitProps>
-	}
-}
 
 export async function getStaticPaths() {
 	const { data } = await client.query({ query: GET_ID_COMMERCES, variables: { first: 99999 }});
@@ -40,24 +30,34 @@ export async function getStaticProps({params}: {params: {page : string}}) {
 	}
 }
 
-export default function listCommerces({ data, nbPage, currentPage}: {data: ListCommercesProps, nbPage: number, currentPage: number}) {
+interface ListCommercesProps {
+	data: ListCommerces;
+	nbPage: number;
+	currentPage: number;
+}
+
+export default function listCommerces(options : ListCommercesProps) {
+	const { data, nbPage, currentPage} = options
 	return (
-		<main className="h-full w-full flex items-center justify-center bg-[#fafafe] flex-col">
-			<Header/>
-			<h1 className="m-5">Commerces</h1>
-			<div className="w-full h-full flex flex-col items-center justify-between">
-				<div className="w-full flex flex-col items-center">
-					{data.commerces.edges.map(element => (
-						<Link key={element.node.id} href={`/commerce/${encodeURIComponent(element.node.id)}/${encodeURIComponent(slugify(element.node.storekeeperWord))}`}>
-							<div className="w-1/2 mb-5 cursor-pointer border border-solid border-gray-200 p-4 rounded-lg bg-white">
-								<h3 className="">{element.node.name}</h3>
-								<span>{element.node.description}</span>
-							</div>
-						</Link>
-					))}
+		<Layout>
+			<div className="grow flex flex-col items-center justify-between">
+				<div className="flex flex-col items-center">
+					<h1 className="m-5">Commerces</h1>
+					<div className="w-full h-full flex flex-col items-center justify-between">
+						<div className="w-full flex flex-col items-center">
+							{data.commerces.edges.map(element => (
+								<Link key={element.node.id} href={`/commerce/${encodeURIComponent(element.node.id)}/${encodeURIComponent(slugify(element.node.storekeeperWord))}`}>
+									<div className="w-1/2 mb-5 cursor-pointer border border-solid border-gray-200 p-4 rounded-lg bg-white">
+										<h3 className="">{element.node.name}</h3>
+										<span>{element.node.description}</span>
+									</div>
+								</Link>
+							))}
+						</div>
+					</div>
 				</div>
 				<Pagination currentPage={currentPage} nbPage={nbPage} uri={'/commerces/'}/>
 			</div>
-		</main>
+		</Layout>
 	)
 }

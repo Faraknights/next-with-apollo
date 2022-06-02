@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 
-interface InputForm {
+interface InputFormProps {
 	inputName: String;
 	placeholder?: String;
 	label?: String;
@@ -8,7 +8,7 @@ interface InputForm {
 	inputSetState: Dispatch<SetStateAction<any>>
 }
 
-export default function InputForm(options : InputForm) {
+export default function InputForm(options : InputFormProps) {
 	const {inputName, placeholder, label, inputState, inputSetState} = options
 	return (
 		<div className='flex flex-col m-2'>

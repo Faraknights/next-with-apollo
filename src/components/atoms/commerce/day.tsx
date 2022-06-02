@@ -1,13 +1,10 @@
-export interface DayProps{
-	opening: string;
-	closing: string;
-}
+import { Day } from "../../../interfaces/commerce";
 
-export default function Day(options : {label : string, day : Array<DayProps>}) {
+export default function DayUnit(options : {label : string, day : Array<Day>}) {
 	const { label: label, day : day } = options;
 	let text = "";
 	if(day && day.length){
-		text = day[0].opening + " - " + day[0].closing;
+		text = day.map(e => e.opening + " - " + e.closing).join(' . ')
 	} else {
 		text = "Fermé"
 	}

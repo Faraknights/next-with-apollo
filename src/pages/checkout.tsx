@@ -5,9 +5,9 @@ import InputForm from '../components/atoms/inputForm';
 import { Appearance, loadStripe, StripeElementsOptions } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from '../components/molecules/checkoutForm';
-import { BasketProps } from './basket';
 import useUser from '../lib/useUser';
 import Router from 'next/router';
+import { Basket } from '../interfaces/basket';
 
 export default function listCommerces() {
 
@@ -15,8 +15,7 @@ export default function listCommerces() {
 
   const [clientSecret, setClientSecret] = useState("");
 
-	const [basket, setBasket] = useState({} as BasketProps)
-
+	const [basket, setBasket] = useState({} as Basket)
 
 	const {user} = useUser()
 
@@ -39,7 +38,6 @@ export default function listCommerces() {
 				}),
 			}).then((res) => res.json())
 				.then((data) => {
-					console.log(data)
 					setClientSecret(data.clientSecret)
 				});
 		}
@@ -64,13 +62,6 @@ export default function listCommerces() {
   React.useEffect(() => {
     // Check to see if this is a redirect back from Checkout
     const query = new URLSearchParams(window.location.search);
-    if (query.get('success')) {
-      console.log('Order placed! You will receive an email confirmation.');
-    }
-
-    if (query.get('canceled')) {
-      console.log('Order canceled -- continue to shop around and checkout when you’re ready.');
-    }
   }, []);
 
   return (

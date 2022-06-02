@@ -1,4 +1,5 @@
 import { useState } from "react";
+import CustomButton from "../atoms/customButton";
 import InputForm from "../atoms/inputForm";
 
 export default function LoginForm () {
@@ -21,10 +22,10 @@ export default function LoginForm () {
 				inputState={input.password}
 				inputSetState={setInput}
 			/>
-			<button
-				type="submit"
-				className="p-2 bg-orange-300 text-white rounded-lg mt-3"
-			>Connexion</button>
+			<CustomButton
+				label="Connexion"
+				submitButton={true}
+			/>
 		</>
 	)
 }

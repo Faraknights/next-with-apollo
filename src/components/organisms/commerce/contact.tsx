@@ -7,7 +7,7 @@ interface ContactProps {
 	map: boolean;
 }
 
-export default function contact (options: ContactProps) {
+export default function Contact (options: ContactProps) {
 	const {email, phone, address} = options
 	return (
 		<div className='grid grid-cols-2'>
