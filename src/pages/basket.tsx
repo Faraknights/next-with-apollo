@@ -16,6 +16,7 @@ export default function listCommerces() {
 
 	const [basket, setBasket] = useState({commerces: []} as Basket)
 	const [clicked, setClicked] = useState(false)
+	const [loading, setLoading] = useState(false)
 
 	function removeProduct(indexCommerce: number, indexProduct:number){
 		setBasket(e => {
@@ -117,18 +118,20 @@ export default function listCommerces() {
 				<div className='w-1/2'>
 					<SummaryCheckout basket={basket}/>
 				</div>
-				<a
-					className='mb-5 w-1/4 flex flex-col'
-					onClick={() => {
+				<CustomButton 
+					loading={loading} 
+					color='red' 
+					label="Passer ma commande"
+					onClick={e => {
 						if(!user){
 							setClicked(true)
 						} else {
+							setLoading(true)
 							Router.push('/time_slot')
+							setLoading(false)
 						}
 					}}
-				>
-					<CustomButton color='red' label="Passer ma commande"/>
-				</a>
+				/>
 			</div>
 		</Layout>
   )

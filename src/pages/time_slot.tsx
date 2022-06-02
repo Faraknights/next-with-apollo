@@ -26,6 +26,7 @@ export default function listCommerces() {
 	const timeGap = 15
 
 	const [basket, setBasket] = useState({commerces: []} as Basket)
+	const [loading, setLoading] = useState(false)
 	const {user} = useUser()
 	useEffect(() => {
 		if(!user?.jwt){
@@ -187,7 +188,12 @@ export default function listCommerces() {
 										<CustomButton
 											disabled={!(slots.length && slots.includes(toMinute(new Date(commerce.pickupDate).getHours()+":"+new Date(commerce.pickupDate).getMinutes())))}
 											label="Payer"
-											onClick={e => Router.push("/contact_information")}
+											loading={loading}
+											onClick={e => {
+												setLoading(true)
+												Router.push("/contact_information")
+												setLoading(false)
+											}}
 											color="red"
 										/>
 									) : (

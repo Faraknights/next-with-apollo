@@ -7,6 +7,7 @@ import Router from 'next/router';
 import { Basket } from '../interfaces/basket';
 import Card from '../components/organisms/card';
 import SummaryCheckout from '../components/molecules/summaryCheckout';
+import Loading from '../components/atoms/loading';
 
 export default function listCommerces() {
 	const [basket, setBasket] = useState({commerces: []} as Basket)
@@ -32,6 +33,7 @@ export default function listCommerces() {
 				<h2 className='text-black font-semibold'>Récapitulatif de commande</h2>
 				<SummaryCheckout basket={basket}/>
 			</Card>
+			<Loading size={20}/>
 			<Link href={"/checkout"}>
 				<a>
 					<button className=" mt-4 p-2 bg-orange-400 rounded-lg text-white" >Payer</button>
