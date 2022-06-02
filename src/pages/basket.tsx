@@ -10,14 +10,12 @@ import CustomButton from '../components/atoms/customButton';
 import Layout from '../components/organisms/layout';
 import getUnitLabel from "../lib/getUnitLabel";
 import { Basket, ProductBasket } from '../interfaces/basket';
+import SummaryCheckout from '../components/molecules/summaryCheckout';
 
 export default function listCommerces() {
 
 	const [basket, setBasket] = useState({commerces: []} as Basket)
 	const [clicked, setClicked] = useState(false)
-	const [totalPrice, setTotalPrice] = useState(0)
-	const [nbProduct, setNbProduct] = useState(0)
-	const [remise, setRemise] = useState(0)
 
 	function removeProduct(indexCommerce: number, indexProduct:number){
 		setBasket(e => {
@@ -34,19 +32,8 @@ export default function listCommerces() {
 	useEffect(() => {
 		setBasket(JSON.parse(localStorage.getItem("basket")!))
 	}, [])
-
-	useEffect(() => {
-		let products = [] as Array<ProductBasket>
-		basket.commerces.map(e => { 
-			products = [...products, ...e.products]
-		})
-		setNbProduct(products.length)
-		if(products.length)
-			setTotalPrice(Object.values(products).reduce((a, c) =>  a + (c.price * c.quantity), 0) - remise)
-	}, [basket])
 	
 	const {user} = useUser()
-	
 
   return (
 		<Layout>
@@ -127,22 +114,9 @@ export default function listCommerces() {
 						</div>
 					))}
 				</div>
-					{(
-						<div className='flex flex-col w-1/2 my-5'>
-							<div className='flex justify-between text-lg font-semibold'>
-								<span>Sous-total ({nbProduct} article)</span>
-								<span className='place-self-end'>{nbProduct.toFixed(2)}€</span>
-							</div>
-							<div className='flex justify-between text-lg'>
-								<span>Remise</span>
-								<span className='place-self-end'>-{remise.toFixed(2)}€</span>
-							</div>
-							<div className='flex justify-between text-xl text-primary-color font-semibold'>
-								<span>Total</span>
-								<span className='place-self-end'>{totalPrice.toFixed(2)}€</span>
-							</div>
-						</div>
-					)}
+				<div className='w-1/2'>
+					<SummaryCheckout basket={basket}/>
+				</div>
 				<a
 					className='mb-5 w-1/4 flex flex-col'
 					onClick={() => {

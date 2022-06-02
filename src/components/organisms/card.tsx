@@ -1,8 +1,14 @@
 import { ReactNode } from 'react';
 
-export default function Card({children}: {children : ReactNode}) {
+interface CardProps {
+	children: ReactNode;
+	className?: string;
+}
+
+export default function Card(options : CardProps) {
+	const {children, className} = options
 	return (
-		<div className='m-5 p-3 bg-white rounded-xl h-fit'>
+		<div className={'m-5 p-3 bg-white rounded-xl h-fit shadow-lg ' + className}>
 			{children}
 		</div>
 	)

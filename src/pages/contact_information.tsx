@@ -5,18 +5,19 @@ import { useEffect, useState } from 'react';
 import useUser from '../lib/useUser';
 import Router from 'next/router';
 import { Basket } from '../interfaces/basket';
+import Card from '../components/organisms/card';
+import SummaryCheckout from '../components/molecules/summaryCheckout';
 
 export default function listCommerces() {
-	const [basket, setBasket] = useState({} as Basket)
+	const [basket, setBasket] = useState({commerces: []} as Basket)
 	const {user} = useUser()
 
 	useEffect(() => {
-		if(!user?.jwt){
+		/*if(!user?.jwt){
 			Router.push("/basket")
-		} else {
-			const newBasket = localStorage.getItem("basket")
-			setBasket(JSON.parse(newBasket!))
-		}
+		}*/
+		const newBasket = localStorage.getItem("basket")
+		setBasket(JSON.parse(newBasket!))
   }, []);
 
   return (
@@ -27,7 +28,10 @@ export default function listCommerces() {
 			<RadioProgression structure={["Panier", "Créneaux", "Coordonnées", "Confirmation"]} currentPos={3}/>
 		</div>
 	  <div className="w-full h-full flex flex-col items-center">
-			<span>Bla bla récap</span>
+			<Card className='w-1/2 px-4 pb-0'>
+				<h2 className='text-black font-semibold'>Récapitulatif de commande</h2>
+				<SummaryCheckout basket={basket}/>
+			</Card>
 			<Link href={"/checkout"}>
 				<a>
 					<button className=" mt-4 p-2 bg-orange-400 rounded-lg text-white" >Payer</button>
