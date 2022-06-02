@@ -164,37 +164,43 @@ export default function listCommerces() {
 											})}
 										</>
 									) : (
-										<div className='italic m-5'>Auncun créneau disponible sur cette journée</div>
+										<div className='italic m-5 flex flex-col items-center'>
+											<span>Auncun créneau disponible sur cette journée</span>
+											<span>Sélectionnez un autre jour pour retirer la commande</span>
+										</div>
 									)}
 								</div>
 							</div>
-							<div className='flex my-4'>
+							<div className='flex my-4 w-1/2 justify-center'>
 								{ i != 0 && (
-									<div className='mr-2'>
+									<div className='mr-2 w-1/2 flex flex-col'>
 										<CustomButton
 											label="Retour"
 											onClick={() => {
 												setPage(page-1)
 											}}
-											color="red"
 										/>
 									</div>
 								)}
-								{ i + 1 == basket.commerces.length ? (
-									<CustomButton
-										disabled={!(slots.length && slots.includes(toMinute(new Date(commerce.pickupDate).getHours()+":"+new Date(commerce.pickupDate).getMinutes())))}
-										label="Payer"
-										onClick={e => Router.push("/contact_information")}
-									/>
-								) : (
-									<CustomButton
-										label="Continuer"
-										disabled={!(slots.length && slots.includes(toMinute(new Date(commerce.pickupDate).getHours()+":"+new Date(commerce.pickupDate).getMinutes())))}
-										onClick={() => {
-											setPage(page+1)
-										}}
-									/>
-								)}
+								<div className='mr-2 w-1/2 flex flex-col'>
+									{ i + 1 == basket.commerces.length ? (
+										<CustomButton
+											disabled={!(slots.length && slots.includes(toMinute(new Date(commerce.pickupDate).getHours()+":"+new Date(commerce.pickupDate).getMinutes())))}
+											label="Payer"
+											onClick={e => Router.push("/contact_information")}
+											color="red"
+										/>
+									) : (
+										<CustomButton
+											label="Continuer"
+											disabled={!(slots.length && slots.includes(toMinute(new Date(commerce.pickupDate).getHours()+":"+new Date(commerce.pickupDate).getMinutes())))}
+											onClick={() => {
+												setPage(page+1)
+											}}
+											color="red"
+										/>
+									)}
+								</div>
 							</div>
 						</div>
 					)

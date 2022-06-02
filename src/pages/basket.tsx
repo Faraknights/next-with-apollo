@@ -144,7 +144,7 @@ export default function listCommerces() {
 						</div>
 					)}
 				<a
-					className='mb-5 w-1/2 flex flex-col'
+					className='mb-5 w-1/4 flex flex-col'
 					onClick={() => {
 						if(!user){
 							setClicked(true)
