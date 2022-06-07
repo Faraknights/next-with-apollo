@@ -2,7 +2,8 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { KeyedMutator } from 'swr';
 import clientWithHeader from '../../apollo/clientWithHeader';
-import { GET_CLIENT, Client } from '../../graphql/client';
+import { GET_CLIENT } from '../../graphql/client';
+import { Client } from '../../interfaces/client';
 import fetchJson from '../../lib/fetchJson';
 import useUser from '../../lib/useUser';
 import { Login } from '../../pages/api/login';
@@ -28,7 +29,6 @@ export default function Header () {
 			GetUser()
 	}, [])
 	
-
 	return (
 		<header className='w-full p-2 bg-white shadow-md flex justify-between items-center z-50'>
 			<nav>

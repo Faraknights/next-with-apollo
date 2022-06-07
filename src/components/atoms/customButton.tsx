@@ -12,7 +12,6 @@ interface customButtonProps {
 
 export default function CustomButton(options : customButtonProps) {
 	const {onClick, disabled, color, label, submitButton, loading} = options
-	console.log(loading)
 	return (
 		<button
 			type={submitButton ? "submit": "button"}

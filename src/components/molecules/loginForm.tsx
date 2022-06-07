@@ -15,7 +15,7 @@ interface LoginFormProps{
 export default function LoginForm (options: LoginFormProps) {
 	const {redirect} = options
 	
-	const { mutateUser } = useUser();
+	const { user, mutateUser } = useUser();
 	const [login] =  useMutation(LOGIN, {
 		onCompleted: async data => {
 			if(data) {
@@ -37,7 +37,6 @@ export default function LoginForm (options: LoginFormProps) {
 	});
 	const [input, setInput] = useState({email: "commercant@me.com", password: "dE8bdTUE"});
 	const [loading, setLoading] = useState(false)
-
 	return (
 		<form 
 			onSubmit={async e => {
