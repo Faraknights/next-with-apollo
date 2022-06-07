@@ -8,6 +8,7 @@ import CheckoutForm from '../components/molecules/checkoutForm';
 import useUser from '../lib/useUser';
 import Router from 'next/router';
 import { Basket, BasketStripe, CommerceStripe, ProductStripe } from '../interfaces/basket';
+import Layout from '../components/organisms/layout';
 
 export default function listCommerces() {
 
@@ -63,8 +64,7 @@ export default function listCommerces() {
   } as StripeElementsOptions;
 
   return (
-		<main className="h-full w-full flex items-center justify-center bg-[#fafafe] flex-col">
-			<Header/>
+		<Layout>
 			<h1 className="m-5">Paiement</h1>
 			<div className='w-1/2'>
 				<RadioProgression structure={["Panier", "Créneaux", "Coordonnées", "Confirmation"]} currentPos={4}/>
@@ -76,6 +76,6 @@ export default function listCommerces() {
 					</Elements>
 				)}
 			</div>
-		</main>
+		</Layout>
   )
 }
