@@ -13,13 +13,17 @@ export interface ProductBasket extends Product{
 	quantity: number;
 }
 
-export interface BasketStripeProps {
-	commerces: Array<{
-		commerceID: String;
-		pickupDate: Date;
-		products: Array<{
-			quantity: number;
-			productID: String;
-		}>
-	}>;
+export interface BasketStripe {
+	commerces: Array<CommerceStripe>
+}
+
+export interface CommerceStripe {
+	commerceID: String;
+	pickupDate: Date;
+	products: Array<ProductStripe>
+}
+
+export interface ProductStripe {
+	quantity: number;
+	productID: String;
 }

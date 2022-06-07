@@ -1,24 +1,32 @@
 import Header from '../components/organisms/header';
-import Link from 'next/link';
 import RadioProgression from '../components/atoms/commerce/radioProgression';
 import { useEffect, useState } from 'react';
 import useUser from '../lib/useUser';
-import Router from 'next/router';
 import { Basket } from '../interfaces/basket';
 import Card from '../components/organisms/card';
 import SummaryCheckout from '../components/molecules/summaryCheckout';
-import Loading from '../components/atoms/loading';
+import CustomButton from '../components/atoms/customButton';
+import Router from 'next/router';
 
 export default function listCommerces() {
 	const [basket, setBasket] = useState({commerces: []} as Basket)
-	const {user} = useUser()
 
+	const [commands, setCommands] = useState({} as any)
+	const {user} = useUser()
+	
 	useEffect(() => {
 		/*if(!user?.jwt){
 			Router.push("/basket")
 		}*/
 		const newBasket = localStorage.getItem("basket")
 		setBasket(JSON.parse(newBasket!))
+
+		/*async function GetUser() {
+			const { data: client } = await clientWithHeader.query({ query: GET_COMMANDS, context :{ accessToken : user!.jwt} });
+			setCommands(client.user)
+		}
+		if(user)
+			GetUser()*/
   }, []);
 
   return (
@@ -33,12 +41,11 @@ export default function listCommerces() {
 				<h2 className='text-black font-semibold'>Récapitulatif de commande</h2>
 				<SummaryCheckout basket={basket}/>
 			</Card>
-			<Loading size={20}/>
-			<Link href={"/checkout"}>
-				<a>
-					<button className=" mt-4 p-2 bg-orange-400 rounded-lg text-white" >Payer</button>
-				</a>
-			</Link>
+			<CustomButton
+				label="Payer"
+				color='red'
+				onClick={e => Router.push('/checkout')}
+			/>
 	  </div>
 	</main>
   )

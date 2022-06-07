@@ -1,4 +1,4 @@
-import { GET_COMMERCES, GET_ID_COMMERCES } from "../../graphql/queryCommerce";
+import { GET_COMMERCES, GET_ID_COMMERCES } from "../../graphql/Commerce";
 import Link from 'next/link'
 import client from '../../apollo/client'
 import slugify from '../../lib/slugify'

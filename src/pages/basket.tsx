@@ -1,6 +1,3 @@
-import { GET_BASKET } from '../graphql/queryBasket';
-import client from '../apollo/client'
-import Header from '../components/organisms/header';
 import {useEffect, useState } from 'react';
 import RadioProgression from '../components/atoms/commerce/radioProgression';
 import useUser from '../lib/useUser';
@@ -9,7 +6,7 @@ import Router from 'next/router';
 import CustomButton from '../components/atoms/customButton';
 import Layout from '../components/organisms/layout';
 import getUnitLabel from "../lib/getUnitLabel";
-import { Basket, ProductBasket } from '../interfaces/basket';
+import { Basket } from '../interfaces/basket';
 import SummaryCheckout from '../components/molecules/summaryCheckout';
 
 export default function listCommerces() {

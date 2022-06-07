@@ -5,6 +5,8 @@ import {
   useElements
 } from "@stripe/react-stripe-js";
 import { PaymentIntentResult } from "@stripe/stripe-js";
+import Loading from "../atoms/loading";
+import CustomButton from "../atoms/customButton";
 
 export default function CheckoutForm() {
   const stripe = useStripe();
@@ -45,14 +47,13 @@ export default function CheckoutForm() {
 
   const handleSubmit = async (e : React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
 
     if (!stripe || !elements) {
       // Stripe.js has not yet loaded.
       // Make sure to disable form submission until Stripe.js has loaded.
       return;
     }
-
-    setIsLoading(true);
 
     const { error } = await stripe.confirmPayment({
       elements,
@@ -97,17 +98,17 @@ export default function CheckoutForm() {
   return (
     <form id="payment-form" onSubmit={handleSubmit} className="flex flex-col items-center mt-7">
       <PaymentElement id="payment-element" />
-      {isLoading ? (
-        <div className="spinner" id="spinner"></div>
-      ) : (
-        <button className="mt-8 p-3 cursor-pointer bg-orange-400 text-white rounded-lg shadow-lg" id="submit">
-          <span id="button-text">
-            Pay now
-          </span>
-        </button>
-      )}
-      {/* Show any error or success messages */}
-      {message && <div id="payment-message">{message}</div>}
+      <div className="my-5">
+        {message && (
+          <div className="bg-secondary-color text-white px-4 rounded" id="payment-message">{message}</div>
+        )}
+      </div>
+      <CustomButton
+        label="Payer"
+        submitButton={true}
+        loading={isLoading}
+        color="red"
+      />
     </form>
   );
 }
