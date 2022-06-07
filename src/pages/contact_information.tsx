@@ -7,6 +7,7 @@ import Card from '../components/organisms/card';
 import SummaryCheckout from '../components/molecules/summaryCheckout';
 import CustomButton from '../components/atoms/customButton';
 import Router from 'next/router';
+import Layout from '../components/organisms/layout';
 
 export default function listCommerces() {
 	const [basket, setBasket] = useState({commerces: []} as Basket)
@@ -15,9 +16,9 @@ export default function listCommerces() {
 	const {user} = useUser()
 	
 	useEffect(() => {
-		/*if(!user?.jwt){
+		if(!user?.jwt){
 			Router.push("/basket")
-		}*/
+		}
 		const newBasket = localStorage.getItem("basket")
 		setBasket(JSON.parse(newBasket!))
 
@@ -30,23 +31,22 @@ export default function listCommerces() {
   }, []);
 
   return (
-	<main className="h-full w-full flex items-center justify-center bg-[#fafafe] flex-col">
-	  <Header/>
-	  <h1 className="m-5">Coordonnées</h1>
-		<div className='w-1/2'>
-			<RadioProgression structure={["Panier", "Créneaux", "Coordonnées", "Confirmation"]} currentPos={3}/>
-		</div>
-	  <div className="w-full h-full flex flex-col items-center">
-			<Card className='w-1/2 px-4 pb-0'>
-				<h2 className='text-black font-semibold'>Récapitulatif de commande</h2>
-				<SummaryCheckout basket={basket}/>
-			</Card>
-			<CustomButton
-				label="Payer"
-				color='red'
-				onClick={e => Router.push('/checkout')}
-			/>
-	  </div>
-	</main>
+		<Layout>
+			<h1 className="m-5">Coordonnées</h1>
+			<div className='w-1/2'>
+				<RadioProgression structure={["Panier", "Créneaux", "Coordonnées", "Confirmation"]} currentPos={3}/>
+			</div>
+			<div className="w-full h-full flex flex-col items-center">
+				<Card className='w-1/2 px-4 pb-0'>
+					<h2 className='text-black font-semibold'>Récapitulatif de commande</h2>
+					<SummaryCheckout basket={basket}/>
+				</Card>
+				<CustomButton
+					label="Payer"
+					color='red'
+					onClick={e => Router.push('/checkout')}
+				/>
+			</div>
+		</Layout>
   )
 }
