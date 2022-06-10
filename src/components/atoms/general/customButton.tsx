@@ -1,7 +1,8 @@
-import { MouseEventHandler } from "react";
+import { MouseEventHandler, ReactNode } from "react";
 import Loading from "./loading";
 
 interface customButtonProps {
+	icon?: ReactNode
 	loading? : boolean
 	onClick?: MouseEventHandler<HTMLButtonElement>;
 	disabled?: boolean;
@@ -11,7 +12,7 @@ interface customButtonProps {
 }
 
 export default function CustomButton(options : customButtonProps) {
-	const {onClick, disabled, color, label, submitButton, loading} = options
+	const {icon, onClick, disabled, color, label, submitButton, loading} = options
 	return (
 		<button
 			type={submitButton ? "submit": "button"}
@@ -36,7 +37,10 @@ export default function CustomButton(options : customButtonProps) {
 					<span className="ml-3">Chargment...</span>
 				</div>
 			) : (
-				label
+				<div className="flex items-center">
+					{icon}
+					<span className={icon ? "ml-2" : ""}>{label}</span>
+				</div>
 			)}
 		</button>
 	)	  
