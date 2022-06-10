@@ -1,10 +1,10 @@
 import { GET_DATA_COMMERCE, GET_ID_COMMERCES } from "../../../graphql/Commerce";
 import slugify from '../../../lib/slugify'
 import client from '../../../apollo/client'
-import Layout from '../../../components/organisms/layout';
+import Layout from '../../../components/organisms/structure/layout';
 import { Commerce, CommerceEdge } from '../../../interfaces/commerce';
-import Card from '../../../components/organisms/card';
-import Description from '../../../components/organisms/description';
+import Card from '../../../components/atoms/general/card';
+import Description from '../../../components/atoms/commerce/description';
 import Products from '../../../components/organisms/commerce/products';
 import Schedule from '../../../components/organisms/commerce/schedule'
 import Contact from '../../../components/organisms/commerce/contact';

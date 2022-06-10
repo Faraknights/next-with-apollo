@@ -1,12 +1,12 @@
 import { useMutation } from "@apollo/client";
 import Router from "next/router";
 import { FormEventHandler, useState } from "react";
-import { LOGIN } from "../../graphql/login";
-import fetchJson from "../../lib/fetchJson";
-import useUser from "../../lib/useUser";
-import { Login } from "../../pages/api/login";
-import CustomButton from "../atoms/customButton";
-import InputForm from "../atoms/inputForm";
+import { LOGIN } from "../../../graphql/login";
+import fetchJson from "../../../lib/fetchJson";
+import useUser from "../../../lib/useUser";
+import { Login } from "../../../pages/api/login";
+import CustomButton from "../../atoms/general/customButton";
+import InputForm from "../../atoms/general/inputForm";
 
 interface LoginFormProps{
 	redirect: string;

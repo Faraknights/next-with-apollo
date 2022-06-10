@@ -1,13 +1,13 @@
-import Header from '../components/organisms/header';
+import Header from '../components/organisms/structure/header';
 import RadioProgression from '../components/atoms/commerce/radioProgression';
 import { useEffect, useState } from 'react';
 import useUser from '../lib/useUser';
 import { Basket } from '../interfaces/basket';
-import Card from '../components/organisms/card';
-import SummaryCheckout from '../components/molecules/summaryCheckout';
-import CustomButton from '../components/atoms/customButton';
+import Card from '../components/atoms/general/card';
+import SummaryCheckout from '../components/molecules/checkout/summaryCheckout';
+import CustomButton from '../components/atoms/general/customButton';
 import Router from 'next/router';
-import Layout from '../components/organisms/layout';
+import Layout from '../components/organisms/structure/layout';
 
 export default function listCommerces() {
 	const [basket, setBasket] = useState({edges: []} as Basket)

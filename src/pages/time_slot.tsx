@@ -2,10 +2,10 @@ import Link from 'next/link';
 import RadioProgression from '../components/atoms/commerce/radioProgression';
 import {useEffect, useState} from 'react'
 import useUser from '../lib/useUser';
-import Layout from '../components/organisms/layout';
-import CustomButton from '../components/atoms/customButton';
+import Layout from '../components/organisms/structure/layout';
+import CustomButton from '../components/atoms/general/customButton';
 import { Basket } from '../interfaces/basket';
-import InputDate from '../components/atoms/inputDate';
+import InputDate from '../components/atoms/general/inputDate';
 import Router from 'next/router';
 import { Schedule } from '../interfaces/commerce';
 

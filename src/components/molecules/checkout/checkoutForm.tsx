@@ -5,8 +5,8 @@ import {
   useElements
 } from "@stripe/react-stripe-js";
 import { PaymentIntentResult } from "@stripe/stripe-js";
-import Loading from "../atoms/loading";
-import CustomButton from "../atoms/customButton";
+import Loading from "../../atoms/general/loading";
+import CustomButton from "../../atoms/general/customButton";
 
 export default function CheckoutForm() {
   const stripe = useStripe();

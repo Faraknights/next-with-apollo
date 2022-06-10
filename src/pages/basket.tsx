@@ -1,14 +1,14 @@
 import {useEffect, useState } from 'react';
 import RadioProgression from '../components/atoms/commerce/radioProgression';
 import useUser from '../lib/useUser';
-import LoginPopUp from '../components/organisms/loginPopUp';
+import LoginPopUp from '../components/organisms/login/loginPopUp';
 import Router from 'next/router';
-import CustomButton from '../components/atoms/customButton';
-import Layout from '../components/organisms/layout';
+import CustomButton from '../components/atoms/general/customButton';
+import Layout from '../components/organisms/structure/layout';
 import getUnitLabel from "../lib/getUnitLabel";
 import { Basket } from '../interfaces/basket';
-import SummaryCheckout from '../components/molecules/summaryCheckout';
-import Card from '../components/organisms/card';
+import SummaryCheckout from '../components/molecules/checkout/summaryCheckout';
+import Card from '../components/atoms/general/card';
 
 export default function listCommerces() {
 

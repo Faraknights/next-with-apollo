@@ -1,5 +1,5 @@
 import { ChangeEventHandler } from "react";
-import {getDate} from '../../lib/dateToString'
+import {getDate} from '../../../lib/dateToString'
 
 interface InputDateProps {
 	min: Date;

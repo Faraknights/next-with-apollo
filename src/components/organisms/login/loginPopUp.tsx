@@ -1,10 +1,10 @@
 import { useMutation } from '@apollo/client';
 import { FormEventHandler } from 'react';
-import { LOGIN } from '../../graphql/login';
-import fetchJson from '../../lib/fetchJson';
-import useUser from '../../lib/useUser';
-import LoginForm from '../molecules/loginForm';
-import PopUp from '../molecules/popUp';
+import { LOGIN } from '../../../graphql/login';
+import fetchJson from '../../../lib/fetchJson';
+import useUser from '../../../lib/useUser';
+import LoginForm from '../../molecules/login/loginForm';
+import PopUp from '../../atoms/general/popUp';
 
 interface LoginPopUpProps{
 	callbackSuccess?: Function;

@@ -1,6 +1,6 @@
 import Article from '../../atoms/commerce/article'
 import { Commerce } from '../../../interfaces/commerce'
-import Card from '../card'
+import Card from '../../atoms/general/card'
 
 export default function Products({ commerce } : {commerce : Commerce}) {
 	return (

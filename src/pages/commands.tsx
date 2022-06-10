@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import useUser from '../lib/useUser';
 import { Basket } from '../interfaces/basket';
-import Layout from '../components/organisms/layout';
-import Commands from '../components/organisms/commands';
+import Layout from '../components/organisms/structure/layout';
+import Commands from '../components/organisms/commands/commands';
 import { GET_COMMANDS } from '../graphql/commands';
 import clientWithHeader from '../apollo/clientWithHeader';
-import CustomButton from '../components/atoms/customButton';
-import LoginPopUp from '../components/organisms/loginPopUp';
+import CustomButton from '../components/atoms/general/customButton';
+import LoginPopUp from '../components/organisms/login/loginPopUp';
 import { CommandConnection } from '../interfaces/commands';
 
 export default function pageCommands() {

@@ -1,8 +1,8 @@
-import { CommandConnection, StatusCommand } from "../../interfaces/commands"
-import Card from "./card"
-import {getDate, getHours} from "../../lib/dateToString"
-import Tag from "../atoms/tag"
-import StatusTag from "../molecules/statusTag"
+import { CommandConnection, StatusCommand } from "../../../interfaces/commands"
+import Card from "../../atoms/general/card"
+import {getDate, getHours} from "../../../lib/dateToString"
+import Tag from "../../atoms/general/tag"
+import StatusTag from "../../molecules/commands/statusTag"
 
 interface CommandsProps{
 	commands : CommandConnection

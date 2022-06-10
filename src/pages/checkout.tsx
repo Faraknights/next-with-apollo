@@ -2,11 +2,11 @@ import RadioProgression from '../components/atoms/commerce/radioProgression';
 import React, { useEffect, useState } from 'react';
 import { Appearance, loadStripe, StripeElementsOptions } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
-import CheckoutForm from '../components/molecules/checkoutForm';
+import CheckoutForm from '../components/molecules/checkout/checkoutForm';
 import useUser from '../lib/useUser';
 import Router from 'next/router';
 import { Basket, BasketStripe, CommerceStripe, ProductStripe } from '../interfaces/basket';
-import Layout from '../components/organisms/layout';
+import Layout from '../components/organisms/structure/layout';
 
 export default function listCommerces() {
 

@@ -1,5 +1,5 @@
-import { Basket } from "../../interfaces/basket"
-import { CCProduct } from "../../interfaces/product"
+import { Basket } from "../../../interfaces/basket"
+import { CCProduct } from "../../../interfaces/product"
 
 export default function SummaryCheckout(options : {basket: Basket}) {
 	const {basket} = options

@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
-import { StatusCommand } from "../../interfaces/commands";
-import Tag from "../atoms/tag";
+import { StatusCommand } from "../../../interfaces/commands";
+import Tag from "../../atoms/general/tag";
 
 interface StatusTagProps{
 	status: StatusCommand;

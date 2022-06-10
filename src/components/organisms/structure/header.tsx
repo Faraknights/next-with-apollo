@@ -1,13 +1,13 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { KeyedMutator } from 'swr';
-import clientWithHeader from '../../apollo/clientWithHeader';
-import { GET_CLIENT } from '../../graphql/client';
-import { User } from '../../interfaces/user';
-import fetchJson from '../../lib/fetchJson';
-import useUser from '../../lib/useUser';
-import { Login } from '../../pages/api/login';
-import CustomButton from '../atoms/customButton';
+import clientWithHeader from '../../../apollo/clientWithHeader';
+import { GET_CLIENT } from '../../../graphql/client';
+import { User } from '../../../interfaces/user';
+import fetchJson from '../../../lib/fetchJson';
+import useUser from '../../../lib/useUser';
+import { Login } from '../../../pages/api/login';
+import CustomButton from '../../atoms/general/customButton';
 
 interface HeaderProps {
 	user?: Login;
