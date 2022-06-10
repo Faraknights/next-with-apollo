@@ -10,7 +10,7 @@ import Router from 'next/router';
 import Layout from '../components/organisms/layout';
 
 export default function listCommerces() {
-	const [basket, setBasket] = useState({commerces: []} as Basket)
+	const [basket, setBasket] = useState({edges: []} as Basket)
 
 	const [commands, setCommands] = useState({} as any)
 	const {user} = useUser()

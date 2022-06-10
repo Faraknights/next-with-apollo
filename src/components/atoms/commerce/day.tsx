@@ -1,7 +1,12 @@
-import { Day } from "../../../interfaces/commerce";
+import { Schedule } from "../../../interfaces/commerce";
 
-export default function DayUnit(options : {label : string, day : Array<Day>}) {
-	const { label: label, day : day } = options;
+interface DayUnitProps{
+	label : string, 
+	day : Array<Schedule>
+}
+
+export default function DayUnit(options : DayUnitProps) {
+	const { label , day } = options;
 	let text = "";
 	if(day && day.length){
 		text = day.map(e => e.opening + " - " + e.closing).join(' . ')

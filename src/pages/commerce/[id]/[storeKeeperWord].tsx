@@ -2,7 +2,7 @@ import { GET_DATA_COMMERCE, GET_ID_COMMERCES } from "../../../graphql/Commerce";
 import slugify from '../../../lib/slugify'
 import client from '../../../apollo/client'
 import Layout from '../../../components/organisms/layout';
-import { Commerce, ListCommercesUnit } from '../../../interfaces/commerce';
+import { Commerce, CommerceEdge } from '../../../interfaces/commerce';
 import Card from '../../../components/organisms/card';
 import Description from '../../../components/organisms/description';
 import Products from '../../../components/organisms/commerce/products';
@@ -11,7 +11,8 @@ import Contact from '../../../components/organisms/commerce/contact';
 
 export async function getStaticPaths() {
 	const { data } = await client.query({ query: GET_ID_COMMERCES, variables: { first: 99999 }});
-	const paths = data.commerces.edges.map((commerce: ListCommercesUnit) => ({
+	console.log(data)
+	const paths = data.commerces.edges.map((commerce: CommerceEdge) => ({
 		 params: { id: commerce.node.id , storeKeeperWord: slugify(commerce.node.storekeeperWord) },
 	}));
 
@@ -29,6 +30,7 @@ export async function getStaticProps({params} : {params: {id: string}}) {
 }
 
 export default function CommercePage({ data } : {data: {commerce : Commerce}}) {
+	console.log(data)
 	return (
 		<Layout>
 			{/* Bannière du profil */}
@@ -66,7 +68,7 @@ export default function CommercePage({ data } : {data: {commerce : Commerce}}) {
 						<Contact
 							email={data.commerce.email}
 							phone={data.commerce.phone}
-							address={data.commerce.address}
+							address={data.commerce.addressDetailed}
 							map={false}
 						/>
 					</Card>

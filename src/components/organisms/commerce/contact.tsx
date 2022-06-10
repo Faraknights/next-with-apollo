@@ -1,9 +1,10 @@
+import { Address } from '../../../interfaces/map';
 import Map from '../../atoms/commerce/map'
 
 interface ContactProps {
 	email: string;
 	phone: string;
-	address: string;
+	address: Address;
 	map: boolean;
 }
 
@@ -19,7 +20,8 @@ export default function Contact (options: ContactProps) {
 			</div>
 			<div className='flex flex-col'>
 				<span className='font-medium'>Adresse</span>
-				<span>{address}</span>
+				<span>{address.number} {address.route}</span>
+				<span>{address.postalCode}, {address.city}</span>
 			</div>
 		</div>
 	)

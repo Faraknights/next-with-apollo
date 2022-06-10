@@ -1,7 +1,5 @@
-import Header from '../components/organisms/header';
 import RadioProgression from '../components/atoms/commerce/radioProgression';
 import React, { useEffect, useState } from 'react';
-import InputForm from '../components/atoms/inputForm';
 import { Appearance, loadStripe, StripeElementsOptions } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from '../components/molecules/checkoutForm';
@@ -14,7 +12,7 @@ export default function listCommerces() {
 
 	const [stripePromise] = useState(() => loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!))
   const [clientSecret, setClientSecret] = useState("");
-	const [basket, setBasket] = useState({commerces: []} as Basket)
+	const [basket, setBasket] = useState({edges: []} as Basket)
 	const {user} = useUser()
 
 	useEffect(() => {
@@ -26,17 +24,17 @@ export default function listCommerces() {
 
 	useEffect(() => {
 		const stripeBasket = {
-			commerces: basket.commerces.map(commerce => ({
-				commerceID: commerce.id,
-				pickupDate: commerce.pickupDate,
-				products: commerce.products.map(product => ({
-					productID: product.id,
-					quantity: product.quantity
+			commerces: basket.edges.map(basketCommerce => ({
+				commerceID: basketCommerce.commerce.id,
+				pickupDate: basketCommerce.pickupDate,
+				products: basketCommerce.products.map(ccProduct => ({
+					productID: ccProduct.product.id,
+					quantity: ccProduct.quantity
 				} as ProductStripe))
 			} as CommerceStripe))
 		} as BasketStripe
 		// Create PaymentIntent as soon as the page loads
-		if(basket.commerces.length){
+		if(basket.edges.length){
 			fetch("http://localhost:8082/create-payment-intent-web", {
 				method: "POST",
 				headers: { 

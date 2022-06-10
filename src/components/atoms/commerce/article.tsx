@@ -1,20 +1,17 @@
 import { useState } from "react";
 import { Basket } from "../../../interfaces/basket";
 import { Commerce } from "../../../interfaces/commerce";
+import { Product } from "../../../interfaces/product";
 import getUnitLabel from "../../../lib/getUnitLabel";
 
 interface ArticleProps {
-	id: string;
-	price: number;
-	unit: string;
-	name: string;
-	isBreton: boolean;
+	product: Product
 	commerce: Commerce;
 }
 
 export default function article (options: ArticleProps){
 	const [clicked, setClicked] = useState(false)
-	const {id, price, unit, name, isBreton, commerce} = options
+	const {product, commerce} = options
 	return (
 		<>
 			<div className='w-full pb-[100%] bg-[#DDD] rounded-2xl relative overflow-hidden mb-2'>
@@ -25,16 +22,16 @@ export default function article (options: ArticleProps){
 				/>
 				{/* Indicateur de prix de l'article */}
 				<span className='absolute right-0 bottom-0 text-white px-2 bg-[#ff8c60] rounded-tl-md text-xs'>
-					{price}€/{getUnitLabel(unit)}
+					{product.price}€/{getUnitLabel(product.unit)}
 				</span>
 			</div>
 			<div className='flex justify-between'>
 				<div className='flex'>
 					{/* Nom du produit et indicateur breton */}
-					{ isBreton && (
+					{ product.isBreton && (
 						<img className="w-5 mr-1" src="https://upload.wikimedia.org/wikipedia/commons/c/c8/Gwenn_ha_Du_%2811_mouchetures%29.svg"/>
 					)}
-					<span className=" overflow-hidden text-ellipsis">{name}</span>
+					<span className=" overflow-hidden text-ellipsis">{product.name}</span>
 				</div>
 				{clicked ? (
 					<span className="text-gray-500">ajouté</span>
@@ -43,32 +40,24 @@ export default function article (options: ArticleProps){
 						className="text-white bg-orange-400 px-2 rounded flex items-center"
 						onClick={e => {
 							let basket = JSON.parse(localStorage.getItem('basket')!) as Basket
-							const i = basket.commerces.findIndex(elem => commerce.id == elem.id)
+							const i = basket.edges.findIndex(elem => commerce.id == elem.commerce.id)
 							if(i >= 0){
-								const j = basket.commerces[i].products.findIndex(product => product.id == id)
+								const j = basket.edges[i].products.findIndex(ccProduct => ccProduct.product.id == product.id)
 								if(j >= 0){
-									basket.commerces[i].products[j].quantity++
+									basket.edges[i].products[j].quantity++
 								} else {
-									basket.commerces[i].products.push({
-										name: name,
-										price: price,
-										id: id,
+									basket.edges[i].products.push({
 										quantity: 1,
-										unit: unit,
+										product: product
 									})
 								}
 							} else {
-								basket.commerces.push({
-									businessHours: commerce.businessHours,
-									id: commerce.id,
-									name: commerce.name,
+								basket.edges.push({
+									commerce: commerce,
 									pickupDate: new Date(new Date(new Date().setSeconds(0)).setMilliseconds(0)),
 									products: [{
-										name: name,
-										price: price,
-										id : id,
 										quantity: 1,
-										unit: unit
+										product: product,
 									}]
 								})
 							}

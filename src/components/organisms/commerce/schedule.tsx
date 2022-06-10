@@ -1,7 +1,11 @@
-import { Schedule } from '../../../interfaces/commerce'
+import { BusinessHours } from '../../../interfaces/commerce'
 import DayUnit from '../../atoms/commerce/day'
 
-export default function ScheduleItem( options: {businessHours : Schedule} ){
+interface ScheduleItemProps{
+	businessHours: BusinessHours;
+}
+
+export default function ScheduleItem( options: ScheduleItemProps ){
 	const {businessHours} = options
 	return (
 		<div>

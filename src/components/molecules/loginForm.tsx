@@ -1,6 +1,6 @@
 import { useMutation } from "@apollo/client";
 import Router from "next/router";
-import { useState } from "react";
+import { FormEventHandler, useState } from "react";
 import { LOGIN } from "../../graphql/login";
 import fetchJson from "../../lib/fetchJson";
 import useUser from "../../lib/useUser";
@@ -10,10 +10,11 @@ import InputForm from "../atoms/inputForm";
 
 interface LoginFormProps{
 	redirect: string;
+	callbackSuccess?: Function;
 }
 
 export default function LoginForm (options: LoginFormProps) {
-	const {redirect} = options
+	const {redirect, callbackSuccess} = options
 	
 	const { user, mutateUser } = useUser();
 	const [login] =  useMutation(LOGIN, {
@@ -28,6 +29,8 @@ export default function LoginForm (options: LoginFormProps) {
 				).then((res: any) => {
 					if(res.jwt){
 						Router.push(redirect)
+						if(callbackSuccess) 
+							callbackSuccess()
 					} else {
 						setLoading(false)
 					}
@@ -35,7 +38,7 @@ export default function LoginForm (options: LoginFormProps) {
 			}
 		}
 	});
-	const [input, setInput] = useState({email: "commercant@me.com", password: "dE8bdTUE"});
+	const [input, setInput] = useState({email: "user@me.com", password: "dE8bdTUE"});
 	const [loading, setLoading] = useState(false)
 	return (
 		<form 

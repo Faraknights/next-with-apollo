@@ -6,10 +6,10 @@ import Layout from '../components/organisms/layout';
 import CustomButton from '../components/atoms/customButton';
 import { Basket } from '../interfaces/basket';
 import InputDate from '../components/atoms/inputDate';
-import { Day, Schedule } from '../interfaces/commerce';
 import Router from 'next/router';
+import { Schedule } from '../interfaces/commerce';
 
-const days = ['sunday', 'monday', 'muesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
 
 function toMinute(time: String) : number{
 	return time.split(':').map(e=>parseInt(e))[0]*60+time.split(':').map(e=>parseInt(e))[1]
@@ -23,9 +23,9 @@ function fromMinute(time: number) : string{
 export default function listCommerces() {
 
 	const [page, setPage] = useState(0);
-	const timeGap = 15
+	const timeGap = 20
 
-	const [basket, setBasket] = useState({commerces: []} as Basket)
+	const [basket, setBasket] = useState({edges: []} as Basket)
 	const [loading, setLoading] = useState(false)
 	const {user} = useUser()
 	useEffect(() => {
@@ -47,17 +47,19 @@ export default function listCommerces() {
 				<RadioProgression structure={["Panier", "Créneaux",  "Coordonnées", "Confirmation"]} currentPos={2}/>
 			</div>
 			<div className="w-full h-full flex items-start">
-				{ basket.commerces.map((commerce, i) => {
+				{ basket.edges.map((basketCommerce, i) => {
+
 					let scheduleDay
 					let slots = [] as Array<number>
-					if(commerce){
-						scheduleDay = commerce.businessHours[days[new Date(commerce.pickupDate).getDay()]] as Array<Day>
+					if(basketCommerce){
+						console.log(basketCommerce.commerce)
+						scheduleDay = basketCommerce.commerce.businessHours[days[new Date(basketCommerce.pickupDate).getDay()]] as Array<Schedule>
 						if(scheduleDay && scheduleDay[0]){
 							slots.push(toMinute(scheduleDay[0].opening))
 							let j = 0
 							for (let index = slots[0]; index <= toMinute(scheduleDay[scheduleDay.length-1].closing); index+=timeGap) {
 								if(slots[slots.length-1] + timeGap <= toMinute(scheduleDay[j].closing)){
-									slots = [...slots, index+15]
+									slots = [...slots, index+timeGap]
 								} else {
 									j++
 									if(j < scheduleDay.length)
@@ -66,14 +68,15 @@ export default function listCommerces() {
 							}
 						}
 					}
+
 					return (
 						<div 
-							key={commerce.id}
+							key={basketCommerce.commerce.id}
 							className={'min-w-full flex flex-col items-center transition overflow-x-hidden'} 
 							style={{transform: "translateX(-" + (page * 100).toString() + "%)"}}
 						>
 							<div className='flex flex-col bg-white w-1/2 shadow-md rounded-lg'>
-								<span className='text-center my-4 text-xl'>Choix du créneau de retrait pour <b>{commerce.name}</b></span>
+								<span className='text-center my-4 text-xl'>Choix du créneau de retrait pour <b>{basketCommerce.commerce.name}</b></span>
 								<div className='m-3 flex flex-col items-center'>
 									<div className='flex justify-between w-full'>
 										<div className='h-10'>
@@ -83,7 +86,7 @@ export default function listCommerces() {
 												onClick={_ => {
 													setBasket((currentBasket: any) => {
 														let stateCopy =  {...currentBasket} as Basket
-														stateCopy.commerces[i].pickupDate = new Date(new Date(commerce.pickupDate).setDate(new Date(commerce.pickupDate).getDate() - 1))
+														stateCopy.edges[i].pickupDate = new Date(new Date(basketCommerce.pickupDate).setDate(new Date(basketCommerce.pickupDate).getDate() - 1))
 														localStorage.setItem('basket', JSON.stringify(stateCopy))
 														return stateCopy;
 													});
@@ -100,7 +103,7 @@ export default function listCommerces() {
 												onClick={_ => {
 													setBasket((currentBasket: any) => {
 														let stateCopy =  {...currentBasket} as Basket
-														stateCopy.commerces[i].pickupDate = new Date(new Date(commerce.pickupDate).setDate(new Date(commerce.pickupDate).getDate() + 1))
+														stateCopy.edges[i].pickupDate = new Date(new Date(basketCommerce.pickupDate).setDate(new Date(basketCommerce.pickupDate).getDate() + 1))
 														localStorage.setItem('basket', JSON.stringify(stateCopy))
 														return stateCopy;
 													});
@@ -115,13 +118,13 @@ export default function listCommerces() {
 										<InputDate 
 											min={min}
 											max={max}
-											date={new Date(commerce.pickupDate)}
+											date={new Date(basketCommerce.pickupDate)}
 											onChange={e => {
 												setBasket((currentBasket: any) => {
 													let stateCopy =  {...currentBasket} as Basket
-													stateCopy.commerces[i].pickupDate = new Date(new Date(stateCopy.commerces[i].pickupDate).setFullYear(new Date(e.target.value).getFullYear()))
-													stateCopy.commerces[i].pickupDate = new Date(new Date(stateCopy.commerces[i].pickupDate).setMonth(new Date(e.target.value).getMonth()))
-													stateCopy.commerces[i].pickupDate = new Date(new Date(stateCopy.commerces[i].pickupDate).setDate(new Date(e.target.value).getDate()))
+													stateCopy.edges[i].pickupDate = new Date(new Date(stateCopy.edges[i].pickupDate).setFullYear(new Date(e.target.value).getFullYear()))
+													stateCopy.edges[i].pickupDate = new Date(new Date(stateCopy.edges[i].pickupDate).setMonth(new Date(e.target.value).getMonth()))
+													stateCopy.edges[i].pickupDate = new Date(new Date(stateCopy.edges[i].pickupDate).setDate(new Date(e.target.value).getDate()))
 													localStorage.setItem('basket', JSON.stringify(stateCopy))
 													return stateCopy;
 												});
@@ -134,7 +137,7 @@ export default function listCommerces() {
 										<>
 										<hr className='border-t w-11/12 my-2'/>
 											{ slots.map(time => {
-												const date = new Date(commerce.pickupDate)
+												const date = new Date(basketCommerce.pickupDate)
 												date.setHours(parseInt(fromMinute(time).split(":")[0]))
 												date.setMinutes(parseInt(fromMinute(time).split(":")[1]))
 												date.setMilliseconds(0)
@@ -143,7 +146,7 @@ export default function listCommerces() {
 													<div key={time} className='w-full flex items-center flex-col'>
 														<div className='flex justify-between w-11/12'>
 															<span>{fromMinute(time)} - {fromMinute(time+timeGap)}</span>
-															{date.toISOString() == new Date(commerce.pickupDate).toISOString() ? (
+															{date.toISOString() == new Date(basketCommerce.pickupDate).toISOString() ? (
 																<span className='italic'>Sélectionné</span>
 															) : (
 																<button 
@@ -151,7 +154,7 @@ export default function listCommerces() {
 																	onClick={e => {
 																		setBasket((currentBasket: any) => {
 																			let stateCopy =  {...currentBasket} as Basket
-																			stateCopy.commerces[i].pickupDate = date
+																			stateCopy.edges[i].pickupDate = date
 																			localStorage.setItem('basket', JSON.stringify(stateCopy))
 																			return stateCopy;
 																		});
@@ -184,9 +187,9 @@ export default function listCommerces() {
 									</div>
 								)}
 								<div className='mr-2 w-1/2 flex flex-col'>
-									{ i + 1 == basket.commerces.length ? (
+									{ i + 1 == basket.edges.length ? (
 										<CustomButton
-											disabled={!(slots.length && slots.includes(toMinute(new Date(commerce.pickupDate).getHours()+":"+new Date(commerce.pickupDate).getMinutes())))}
+											disabled={!(slots.length && slots.includes(toMinute(new Date(basketCommerce.pickupDate).getHours()+":"+new Date(basketCommerce.pickupDate).getMinutes())))}
 											label="Payer"
 											loading={loading}
 											onClick={e => {
@@ -199,7 +202,7 @@ export default function listCommerces() {
 									) : (
 										<CustomButton
 											label="Continuer"
-											disabled={!(slots.length && slots.includes(toMinute(new Date(commerce.pickupDate).getHours()+":"+new Date(commerce.pickupDate).getMinutes())))}
+											disabled={!(slots.length && slots.includes(toMinute(new Date(basketCommerce.pickupDate).getHours()+":"+new Date(basketCommerce.pickupDate).getMinutes())))}
 											onClick={() => {
 												setPage(page+1)
 											}}

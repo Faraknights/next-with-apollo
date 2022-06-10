@@ -1,26 +1,26 @@
-import { Commerce, Product } from "./commerce";
+import { Commerce } from "./commerce";
+import { CCProduct } from "./product";
 
 export interface Basket {
-	commerces: Array<CommerceBasket>
+	edges: Array<BasketCommerce>;
 }
 
-export interface CommerceBasket extends Omit<Commerce, 'products'>{
+export interface BasketCommerce{
+	commerce?: Commerce;
 	pickupDate?: Date;
-	products: Array<ProductBasket>
+	products?: Array<CCProduct>;
 }
 
-export interface ProductBasket extends Product{
-	quantity: number;
-}
 
+//stripe part
 export interface BasketStripe {
-	commerces: Array<CommerceStripe>
+	commerces: Array<CommerceStripe>;
 }
 
 export interface CommerceStripe {
 	commerceID: String;
 	pickupDate: Date;
-	products: Array<ProductStripe>
+	products: Array<ProductStripe>;
 }
 
 export interface ProductStripe {

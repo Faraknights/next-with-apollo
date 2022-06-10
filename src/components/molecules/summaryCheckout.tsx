@@ -1,17 +1,18 @@
-import { Basket, ProductBasket } from "../../interfaces/basket"
+import { Basket } from "../../interfaces/basket"
+import { CCProduct } from "../../interfaces/product"
 
 export default function SummaryCheckout(options : {basket: Basket}) {
 	const {basket} = options
 	
-	const remise = 0
-	let products = [] as Array<ProductBasket>
-	basket.commerces.map(e => { 
-		products = [...products, ...e.products]
+	const remise = 10
+	let products = [] as Array<CCProduct>
+	basket.edges.map(basketCommerce => {
+		products = [...products, ...basketCommerce.products]
 	})
 	const nbProduct = Object.values(products).reduce((a, c) =>  a + c.quantity, 0)
 	let totalPrice = 0
 	if(products.length)
-		totalPrice = Object.values(products).reduce((a, c) =>  a + (c.price * c.quantity), 0)
+		totalPrice = Object.values(products).reduce((a, c) =>  a + (c.product.price * c.quantity), 0)
 
 	return (
 		<div className='flex flex-col w-full my-5'>

@@ -1,4 +1,5 @@
 import { ChangeEventHandler } from "react";
+import {getDate} from '../../lib/dateToString'
 
 interface InputDateProps {
 	min: Date;
@@ -22,7 +23,7 @@ export default function InputDate(options : InputDateProps) {
 			<label 
 				style={{gridColumn:1, gridRow:1}}
 				className='px-4 h-full w-full pointer-events-none bg-primary-color flex items-center justify-center text-white text'
-			>{date ? (('0' + date.getDate()).slice(-2) + "  / " + ('0' + (date.getMonth()+1)).slice(-2) + " / " + date.getFullYear()) : "-- / -- / ----"}</label>
+			>{getDate({date, spaced: true})}</label>
 		</div>
 	)	  
 }
