@@ -40,6 +40,9 @@ export default function article (options: ArticleProps){
 						className="text-white bg-orange-400 px-2 rounded flex items-center"
 						onClick={e => {
 							let basket = JSON.parse(localStorage.getItem('basket')!) as Basket
+							if(!basket){
+								basket = {edges : []} as Basket
+							}
 							const i = basket.edges.findIndex(elem => commerce.id == elem.commerce.id)
 							if(i >= 0){
 								const j = basket.edges[i].products.findIndex(ccProduct => ccProduct.product.id == product.id)

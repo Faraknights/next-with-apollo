@@ -7,7 +7,6 @@ const httpLink = createHttpLink({
 
 const authLink = setContext((_, context) => {
 	const {accessToken} = context
-	console.log(accessToken)
 	return {
 		headers: {
 			...context.headers,

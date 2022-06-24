@@ -32,7 +32,8 @@ export const GET_DATA_COMMERCE = gql`
 			id
 			description
 			storekeeperWord
-			addressDetailed{
+			address{
+				id
         number
         route
         optionalRoute

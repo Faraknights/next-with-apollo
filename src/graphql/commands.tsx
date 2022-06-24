@@ -9,7 +9,7 @@ export const GET_COMMANDS = gql`
 					commerces{
 						commerce{
 							name
-							addressDetailed{
+							address{
 								number
 								route
 								optionalRoute

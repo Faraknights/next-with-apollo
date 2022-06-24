@@ -2,10 +2,9 @@ import React, { useEffect, useState } from "react";
 import {
   PaymentElement,
   useStripe,
-  useElements
+  useElements,
 } from "@stripe/react-stripe-js";
 import { PaymentIntentResult } from "@stripe/stripe-js";
-import Loading from "../../atoms/general/loading";
 import CustomButton from "../../atoms/general/customButton";
 
 export default function CheckoutForm() {
@@ -14,7 +13,6 @@ export default function CheckoutForm() {
   const [isLoading, setIsLoading] = useState(false);
 
   const [message, setMessage] = useState("");
-
   useEffect(() => {
     if (!stripe) {
       return;
@@ -48,18 +46,17 @@ export default function CheckoutForm() {
   const handleSubmit = async (e : React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-
     if (!stripe || !elements) {
       // Stripe.js has not yet loaded.
       // Make sure to disable form submission until Stripe.js has loaded.
       return;
     }
-
-    const { error } = await stripe.confirmPayment({
+    
+    const { error } = await stripe.confirmSetup({
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: "http://localhost:3000",
+        return_url: "http://localhost:3000/commands/contact_information",
       },
     });
 
@@ -76,38 +73,20 @@ export default function CheckoutForm() {
 
     setIsLoading(false);
   };
-  const cardStyle = {
-    style: {
-      base: {
-        color: "#32325d",
-        fontFamily: 'Arial, sans-serif',
-        fontSmoothing: "antialiased",
-        fontSize: "16px",
-        "::placeholder": {
-          color: "#32325d"
-        }
-      },
-      invalid: {
-        fontFamily: 'Arial, sans-serif',
-        color: "#fa755a",
-        iconColor: "#fa755a"
-      }
-    }
-  };
 
   return (
     <form id="payment-form" onSubmit={handleSubmit} className="flex flex-col items-center mt-7">
-      <PaymentElement id="payment-element" />
+      <PaymentElement id="payment-element"/>
       <div className="my-5">
         {message && (
           <div className="bg-secondary-color text-white px-4 rounded" id="payment-message">{message}</div>
         )}
       </div>
       <CustomButton
-        label="Payer"
+        label="Ajouter cette carte"
         submitButton={true}
         loading={isLoading}
-        color="red"
+        color="secondaryColor"
       />
     </form>
   );

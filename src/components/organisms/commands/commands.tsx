@@ -28,8 +28,8 @@ export default function Commands (options: CommandsProps) {
 									<div className="flex items-center justify-between">
 										<div className="flex flex-col">
 											<h4 className="text-black font-semibold mt-3">{commerceCommand.commerce.name}</h4>
-											<span>{commerceCommand.commerce.addressDetailed.number} {commerceCommand.commerce.addressDetailed.route}</span>
-											<span>{commerceCommand.commerce.addressDetailed.postalCode} {commerceCommand.commerce.addressDetailed.city}</span>
+											<span>{commerceCommand.commerce.address.number} {commerceCommand.commerce.address.route}</span>
+											<span>{commerceCommand.commerce.address.postalCode} {commerceCommand.commerce.address.city}</span>
 											<span>Collecte : {getDate({date: commerceCommand.pickupDate})} -{'>'} {getHours({date: commerceCommand.pickupDate})} - {getHours({date: new Date(new Date(commerceCommand.pickupDate).setMinutes(new Date(commerceCommand.pickupDate).getMinutes() + timeGap))})}</span>
 										</div>
 										<StatusTag status={commerceCommand.status}/>

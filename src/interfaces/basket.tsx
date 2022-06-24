@@ -1,8 +1,12 @@
 import { Commerce } from "./commerce";
+import { Address } from "./map";
 import { CCProduct } from "./product";
+import { RegisteredPaymentMethod } from "./user";
 
 export interface Basket {
 	edges: Array<BasketCommerce>;
+	stripeCard?: RegisteredPaymentMethod;
+	address?: Address;
 }
 
 export interface BasketCommerce{

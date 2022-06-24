@@ -6,38 +6,45 @@ interface customButtonProps {
 	loading? : boolean
 	onClick?: MouseEventHandler<HTMLButtonElement>;
 	disabled?: boolean;
-	color?: "red" | "orange";
+	color?: "secondaryColor" | "primaryColor" | "lightGrey";
 	label: string;
 	submitButton?: boolean
 }
 
 export default function CustomButton(options : customButtonProps) {
 	const {icon, onClick, disabled, color, label, submitButton, loading} = options
+	let colors = ["text-white", "bg-primary-color-lightened", "bg-primary-color"]
+	switch (color) {
+		case "primaryColor":
+			colors = ["text-white", "bg-primary-color-lightened", "bg-primary-color"]
+			break;
+		case "secondaryColor":
+			colors = ["text-white", "bg-secondary-color-lightened", "bg-secondary-color"]
+			break;
+		case "lightGrey":
+			colors = ["text-dark-grey", "bg-light-grey-2", "bg-light-grey-2"]
+			break;
+	
+		default:
+			break;
+	}
 	return (
 		<button
 			type={submitButton ? "submit": "button"}
 			onClick={onClick}
-			className={ color && color == "red" ? 
-				"p-2 px-4 rounded-lg text-white" + (disabled ? ' bg-secondary-color-lightened cursor-default pointer-events-none' : ' bg-secondary-color' )
-			:
-				"p-2 px-4 rounded-lg text-white" + (disabled ? ' bg-primary-color-lightened cursor-default pointer-events-none' : ' bg-primary-color' )
-			}
+			className={" p-2 px-4 rounded-lg " + colors[0] + (disabled ? " " + colors[1] + " cursor-default pointer-events-none" : " " + colors[2] )}
 		>
 			{loading ? (
 				<div className="flex items-center justify-center">
 					<Loading
-						background={color && color == "red" ? (
-							disabled ? "bg-secondary-color-lightened" : "bg-secondary-color"
-						) : (
-							disabled ? "bg-primary-color-lightened" : "bg-primary-color"
-						)}
+						background={disabled ? colors[1] : colors[2]}
 						mode="black"
 						size={20}
 					/>
 					<span className="ml-3">Chargment...</span>
 				</div>
 			) : (
-				<div className="flex items-center">
+				<div className="flex items-center justify-center">
 					{icon}
 					<span className={icon ? "ml-2" : ""}>{label}</span>
 				</div>

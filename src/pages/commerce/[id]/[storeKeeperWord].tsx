@@ -11,7 +11,6 @@ import Contact from '../../../components/organisms/commerce/contact';
 
 export async function getStaticPaths() {
 	const { data } = await client.query({ query: GET_ID_COMMERCES, variables: { first: 99999 }});
-	console.log(data)
 	const paths = data.commerces.edges.map((commerce: CommerceEdge) => ({
 		 params: { id: commerce.node.id , storeKeeperWord: slugify(commerce.node.storekeeperWord) },
 	}));
@@ -29,10 +28,16 @@ export async function getStaticProps({params} : {params: {id: string}}) {
 	}
 }
 
-export default function CommercePage({ data } : {data: {commerce : Commerce}}) {
-	console.log(data)
+interface CommercePageProps {
+	data : {
+		commerce : Commerce
+	}
+}
+
+export default function CommercePage(options : CommercePageProps) {
+	const { data : { commerce } } = options
 	return (
-		<Layout>
+		<Layout title={commerce.name}>
 			{/* Bannière du profil */}
 			<div className={`w-full h-[400px] fixed top-0 bg-gradient-to-b from-[#969697] to-[#3E3E3F] flex items-center justify-center -z-0`}>
 				<img 
@@ -49,26 +54,26 @@ export default function CommercePage({ data } : {data: {commerce : Commerce}}) {
 							alt="logo de base d'une image"
 						/>
 					</div>
-					<span className='text-white ml-5'>{data.commerce.storekeeperWord}</span>
+					<span className='text-white ml-5'>{commerce.storekeeperWord}</span>
 				</div>
 			</div>
 			{/* Détails du profil */}
 			<div className={`z-10 mt-[350px] bg-[#fafafe] h-full grid grid-cols-2`}>
 				<div className='translate-y-[-60px]'>
 					<Card>
-						<Description label={data.commerce.description}></Description>
+						<Description label={commerce.description}></Description>
 					</Card>
-					<Products commerce={data.commerce}/>
+					<Products commerce={commerce}/>
 				</div>
 				<div className='translate-y-[-60px]'>
 					<Card>
-						<Schedule businessHours={data.commerce.businessHours}/>
+						<Schedule businessHours={commerce.businessHours}/>
 					</Card>
 					<Card>
 						<Contact
-							email={data.commerce.email}
-							phone={data.commerce.phone}
-							address={data.commerce.addressDetailed}
+							email={commerce.email}
+							phone={commerce.phone}
+							address={commerce.address}
 							map={false}
 						/>
 					</Card>

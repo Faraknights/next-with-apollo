@@ -28,7 +28,9 @@ export default function LoginForm (options: LoginFormProps) {
 					})
 				).then((res: any) => {
 					if(res.jwt){
-						Router.push(redirect)
+						if(redirect){
+							Router.push(redirect)
+						}
 						if(callbackSuccess) 
 							callbackSuccess()
 					} else {
@@ -38,7 +40,7 @@ export default function LoginForm (options: LoginFormProps) {
 			}
 		}
 	});
-	const [input, setInput] = useState({email: "user@me.com", password: "dE8bdTUE"});
+	const [input, setInput] = useState({email: "bastien@me.com", password: "dE8bdTUE"});
 	const [loading, setLoading] = useState(false)
 	return (
 		<form 

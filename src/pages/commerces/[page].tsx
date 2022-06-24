@@ -39,12 +39,11 @@ interface ListCommercesProps {
 export default function listCommerces(options : ListCommercesProps) {
 	const { data, nbPage, currentPage} = options
 	return (
-		<Layout>
+		<Layout title="Commerces">
 			<div className="grow flex flex-col items-center justify-between">
 				<div className="flex flex-col items-center">
-					<h1 className="m-5">Commerces</h1>
 					<div className="w-full h-full flex flex-col items-center justify-between">
-						<div className="w-full flex flex-col items-center">
+						<div className="w-full flex flex-col items-center pt-5">
 							{data.edges.map(element => (
 								<Link key={element.node.id} href={`/commerce/${encodeURIComponent(element.node.id)}/${encodeURIComponent(slugify(element.node.storekeeperWord))}`}>
 									<div className="w-1/2 mb-5 cursor-pointer border border-solid border-gray-200 p-4 rounded-lg bg-white">

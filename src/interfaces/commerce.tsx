@@ -25,7 +25,7 @@ export interface Commerce{
 	name?: string;
 	description?: string;
 	storekeeperWord?: string;
-	addressDetailed?: Address;
+	address?: Address;
 	latitude?: number;
 	longitude?: number;
 	phone?: string;

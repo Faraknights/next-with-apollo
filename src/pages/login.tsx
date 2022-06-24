@@ -9,9 +9,10 @@ export default function listCommerces() {
 	}, [])
 	
 	return (
-		<Layout>
-			<h1 className="m-5">Connexion</h1>
-			<LoginForm redirect='/'/>	
+		<Layout title='Connexion'>
+			<div className='mt-7'>
+				<LoginForm redirect='/'/>	
+			</div>
 		</Layout>
 	)
 }

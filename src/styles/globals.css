@@ -17,25 +17,14 @@ html {
   @apply flex flex-col items-center w-full grow
 }
 
-:root {
-  --primary-color: #ff8c60;
-  --secondary-color: #ff5858;
-  --primary-color-lightened: #ffc9b2;
-  --secondary-color-lightened: #ffc9c9;
-}
-
-h1, h2, h3, h4{
-  @apply text-primary-color m-0
-}
-
 h1{
-  @apply text-3xl
+  @apply text-title-1 text-dark-grey
 }
 h2{
-  @apply text-2xl
+  @apply text-title-2
 }
 h3{
-  @apply text-xl
+  @apply text-title-3
 }
 
 a {
@@ -84,4 +73,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   -ms-animation: rotating 2s linear infinite;
   -o-animation: rotating 2s linear infinite;
   animation: rotating 2s linear infinite;
+}
+
+
+@keyframes pathStroke {
+  0% {  stroke-dashoffset: -288.5; }
+  100% { stroke-dashoffset: 0; }
 }
