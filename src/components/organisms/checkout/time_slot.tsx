@@ -1,13 +1,10 @@
-import RadioProgression from '../../molecules/checkout/radioProgression';
+
 import {Dispatch, SetStateAction, useEffect, useState} from 'react'
-import useUser from '../../../lib/useUser';
-import Layout from '../structure/layout';
 import CustomButton from '../../atoms/general/customButton';
 import { Basket } from '../../../interfaces/basket';
 import InputDate from '../../atoms/general/inputDate';
-import Router, { NextRouter } from 'next/router';
+import { NextRouter } from 'next/router';
 import { Schedule } from '../../../interfaces/commerce';
-import { Login } from '../../../pages/api/login';
 
 const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
 
@@ -118,12 +115,12 @@ export default function TimeSlotPage(options: TimeSlotPageProps) {
 										date={new Date(basketCommerce.pickupDate)}
 										onChange={e => {
 											setBasket((currentBasket: any) => {
-												let stateCopy =  {...currentBasket} as Basket
-												stateCopy.edges[i].pickupDate = new Date(new Date(stateCopy.edges[i].pickupDate).setFullYear(new Date(e.target.value).getFullYear()))
-												stateCopy.edges[i].pickupDate = new Date(new Date(stateCopy.edges[i].pickupDate).setMonth(new Date(e.target.value).getMonth()))
-												stateCopy.edges[i].pickupDate = new Date(new Date(stateCopy.edges[i].pickupDate).setDate(new Date(e.target.value).getDate()))
-												localStorage.setItem('basket', JSON.stringify(stateCopy))
-												return stateCopy;
+													let stateCopy =  {...currentBasket} as Basket
+													stateCopy.edges[i].pickupDate = new Date(new Date(stateCopy.edges[i].pickupDate).setFullYear(new Date(e.target.value).getFullYear()))
+													stateCopy.edges[i].pickupDate = new Date(new Date(stateCopy.edges[i].pickupDate).setMonth(new Date(e.target.value).getMonth()))
+													stateCopy.edges[i].pickupDate = new Date(new Date(stateCopy.edges[i].pickupDate).setDate(new Date(e.target.value).getDate()))
+													localStorage.setItem('basket', JSON.stringify(stateCopy))
+													return stateCopy;
 											});
 										}}
 									/>

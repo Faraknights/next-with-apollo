@@ -36,7 +36,7 @@ a {
 }
 
 input[type="date"]::-webkit-calendar-picker-indicator {
-  @apply w-full h-[100%];
+  @apply w-full h-[100%] cursor-pointer;
 }
 
 @-webkit-keyframes rotating /* Safari and Chrome */ {

@@ -17,8 +17,8 @@ export default function InputDate(options : InputDateProps) {
 				style={{gridColumn:1, gridRow:1}}
 				className='h-full'
 				type="date" 
-				min={min.getFullYear() + "-" + (min.getMonth()+1) + "-" + min.getDate()}
-				max={max.getFullYear() + "-" + (max.getMonth()+1) + "-" + max.getDate()}
+				min={min.getFullYear() + "-" + ('0' + (min.getMonth()+1)).slice(-2) + "-" + ('0' + min.getDate()).slice(-2) }
+				max={max.getFullYear() + "-" + ('0' + (max.getMonth()+1)).slice(-2) + "-" + ('0' + max.getDate()).slice(-2) }
 			/>
 			<label 
 				style={{gridColumn:1, gridRow:1}}
