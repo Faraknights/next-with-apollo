@@ -13,7 +13,7 @@ export function getDate (options: dateToString) {
 	let string = ""
 	if(date){
 		string += `${('0' + new Date(date).getDate()).slice(-2)}${spaced ? " / " : "/"}`
-		string += `${('0' + new Date(date).getMonth()).slice(-2)}${spaced ? " / " : "/"}`
+		string += `${('0' + (new Date(date).getMonth() + 1)).slice(-2)}${spaced ? " / " : "/"}`
 		string += `${('0' + new Date(date).getFullYear()).slice(-2)}`
 	} else {
 		string += `--${spaced ? " / " : "/"}`

@@ -82,8 +82,6 @@ export default function CustomButton(options : customButtonProps) {
 			colors.border.unfilledDisable = "border-light-grey-2"
 			break;
 	}
-	console.log(!!unfilled, !!disabled, colors)
-	console.log(!!unfilled ? (!!disabled ? colors.fill.unfilledDisable : colors.fill.unfilled) : colors.fill.default)
 	return (
 		<button
 			type={submitButton ? "submit": "button"}

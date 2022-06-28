@@ -5,6 +5,7 @@ import { Basket } from '../../../interfaces/basket';
 import InputDate from '../../atoms/general/inputDate';
 import { NextRouter } from 'next/router';
 import { Schedule } from '../../../interfaces/commerce';
+import { ArrowSVG } from '../../../assets/svg/general/svgGeneral';
 
 const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
 
@@ -73,39 +74,62 @@ export default function TimeSlotPage(options: TimeSlotPageProps) {
 							<span className='text-center my-4 text-xl'>Choix du créneau de retrait pour <b>{basketCommerce.commerce.name}</b></span>
 							<div className='m-3 flex flex-col items-center'>
 								<div className='flex justify-between w-full'>
-									<div className='h-10'>
+									<div className='h-10 flex'>
 										{/* Bouton pour au jour précédent */}
 										<button
-											className='w-10 border border-gray-300'
+											className={'w-10 h-10 flex items-center justify-center border border-gray-300 rotate-180 ' + ((_ => {
+												for(let i = 1; i<= 7; i++){
+													const newDate = new Date(new Date(basketCommerce.pickupDate).setDate(new Date(basketCommerce.pickupDate).getDate() - i))
+													if(basketCommerce.commerce.businessHours[days[newDate.getDay()]]){
+														return newDate.getTime() < min.getTime()
+													}
+												}
+											})() ? "pointer-events-none fill-light-grey-2" : "")}
 											onClick={_ => {
 												setBasket((currentBasket: any) => {
 													let stateCopy =  {...currentBasket} as Basket
-													stateCopy.edges[i].pickupDate = new Date(new Date(basketCommerce.pickupDate).setDate(new Date(basketCommerce.pickupDate).getDate() - 1))
-													localStorage.setItem('basket', JSON.stringify(stateCopy))
-													return stateCopy;
+													for(let i = 1; i<= 7; i++){
+														const newDate = new Date(new Date(basketCommerce.pickupDate).setDate(new Date(basketCommerce.pickupDate).getDate() - i))
+														if(basketCommerce.commerce.businessHours[days[newDate.getDay()]]){
+															console.log(basketCommerce.pickupDate)
+															basketCommerce.pickupDate = newDate
+															localStorage.setItem('basket', JSON.stringify(stateCopy))
+															return stateCopy;
+														}
+													}
+													return stateCopy
 												});
 											}}
 										>
-											<svg viewBox="0 0 24 24">
-												<path fill="none" d="M0 0h24v24H0z"/>
-												<path d="M10.828 12l4.95 4.95-1.414 1.414L8 12l6.364-6.364 1.414 1.414z"/>
-											</svg>
+											<ArrowSVG/>
 										</button>
 										{/* Bouton pour au jour Suivant */}
 										<button 
-											className='w-10 rotate-180 border border-gray-300 -translate-x-[1px]'
+											className={'w-10 h-10 flex items-center justify-center border border-gray-300 -translate-x-[1px] ' + ((_ => {
+												for(let i = 1; i<= 7; i++){
+													const newDate = new Date(new Date(basketCommerce.pickupDate).setDate(new Date(basketCommerce.pickupDate).getDate() + i))
+													if(basketCommerce.commerce.businessHours[days[newDate.getDay()]]){
+														return newDate.getTime() > max.getTime()
+													}
+												}
+											})() ? "pointer-events-none fill-light-grey-2" : "")}
 											onClick={_ => {
 												setBasket((currentBasket: any) => {
 													let stateCopy =  {...currentBasket} as Basket
-													stateCopy.edges[i].pickupDate = new Date(new Date(basketCommerce.pickupDate).setDate(new Date(basketCommerce.pickupDate).getDate() + 1))
-													localStorage.setItem('basket', JSON.stringify(stateCopy))
-													return stateCopy;
+													for(let i = 1; i<= 7; i++){
+														const newDate = new Date(new Date(basketCommerce.pickupDate).setDate(new Date(basketCommerce.pickupDate).getDate() + i))
+														if(basketCommerce.commerce.businessHours[days[newDate.getDay()]]){
+															console.log(basketCommerce.pickupDate)
+															basketCommerce.pickupDate = newDate
+															localStorage.setItem('basket', JSON.stringify(stateCopy))
+															return stateCopy;
+														}
+													}
+													return stateCopy
 												});
 											}}
 										>
-											<svg viewBox="0 0 24 24">
-												<path d="M10.828 12l4.95 4.95-1.414 1.414L8 12l6.364-6.364 1.414 1.414z"/>
-											</svg>
+											<ArrowSVG/>
 										</button>
 									</div>
 									{/* Bouton de selection de date */}
