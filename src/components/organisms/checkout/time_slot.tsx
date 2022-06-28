@@ -4,7 +4,7 @@ import CustomButton from '../../atoms/general/customButton';
 import { Basket } from '../../../interfaces/basket';
 import InputDate from '../../atoms/general/inputDate';
 import { NextRouter } from 'next/router';
-import { Schedule } from '../../../interfaces/commerce';
+import { BusinessHours, Schedule } from '../../../interfaces/commerce';
 import { ArrowSVG } from '../../../assets/svg/general/svgGeneral';
 
 const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
@@ -29,7 +29,7 @@ export default function TimeSlotPage(options: TimeSlotPageProps) {
 	const {basket, setBasket, setPurchaseProcessPage, router} = options
 
 	const [page, setPage] = useState(0);
-	const timeGap = 20
+	const timeGap = 30
 
 	const [loading, setLoading] = useState(false)
 
@@ -45,20 +45,22 @@ export default function TimeSlotPage(options: TimeSlotPageProps) {
 		<div className="min-w-full h-full flex items-start overflow-hidden">
 			{ basket.edges.map((basketCommerce, i) => {
 
-				let scheduleDay
+				let scheduleDay = [] as Array<Schedule>
 				let slots = [] as Array<number>
+				
 				if(basketCommerce){
-					scheduleDay = basketCommerce.commerce.businessHours[days[new Date(basketCommerce.pickupDate).getDay()]] as Array<Schedule>
+					scheduleDay = basketCommerce.commerce.businessHours[days[new Date(basketCommerce.pickupDate).getDay()]]
 					if(scheduleDay && scheduleDay[0]){
 						slots.push(toMinute(scheduleDay[0].opening))
 						let j = 0
-						for (let index = slots[0]; index <= toMinute(scheduleDay[scheduleDay.length-1].closing); index+=timeGap) {
-							if(slots[slots.length-1] + timeGap <= toMinute(scheduleDay[j].closing)){
+						for (let index = slots[0]; index < toMinute(scheduleDay[scheduleDay.length-1].closing); index+=timeGap) {
+							if(slots[slots.length-1] + timeGap < toMinute(scheduleDay[j].closing)){
 								slots = [...slots, index+timeGap]
 							} else {
 								j++
 								if(j < scheduleDay.length)
-									index = toMinute(scheduleDay[j].opening)
+									index = toMinute(scheduleDay[j].opening) - timeGap
+									slots = [...slots, index+timeGap]
 							}
 						}
 					}
