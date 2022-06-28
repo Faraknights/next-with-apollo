@@ -1,5 +1,4 @@
-import ArrowSVG from './arrow.svg'
+import ArrowSVG from "./arrow.svg";
+import MenuSVG from "./menu.svg";
 
-export {
-	ArrowSVG
-}
+export { ArrowSVG, MenuSVG };
