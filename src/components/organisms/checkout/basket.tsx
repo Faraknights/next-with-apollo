@@ -6,6 +6,7 @@ import { Basket } from '../../../interfaces/basket';
 import SummaryCheckout from '../../../components/molecules/checkout/summaryCheckout';
 import Card from '../../../components/atoms/general/card';
 import { Login } from '../../../pages/api/login';
+import { AddSVG } from '../../../assets/svg/general/svgGeneral';
 
 interface BasketPageProps {
   basket: Basket;
@@ -51,12 +52,13 @@ export default function BasketPage(options: BasketPageProps) {
 				{ basket.edges.length !== 0 ? (
 					<>
 						<div className='bg-white mt-3 p-4 rounded-lg lg:w-[45rem] md:w-1/2 flex flex-col shadow-md'>
-							<div className='mb-3 flex'>
+							<div className='mb-3 flex items-center'>
 								<h3 className='mr-3'>Vos articles</h3>
 								<CustomButton 
 									label='Continuer mes achats' 
 									color='secondaryColor'
-									
+									icon={<AddSVG/>}
+									unfilled={true}
 								/>
 							</div>
 							{ basket.edges.map ((basketCommerce, i) => (
