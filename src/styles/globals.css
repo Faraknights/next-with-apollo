@@ -1,34 +1,34 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
- 
+
 html,
 body {
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  @apply h-full p-0 m-0 w-full bg-slate-50 flex flex-col items-center
+  @apply h-full p-0 m-0 w-full bg-slate-50 flex flex-col items-center;
 }
 
 html {
-  @apply  overflow-x-hidden
+  @apply overflow-x-hidden;
 }
 
-#__next{
-  @apply flex flex-col items-center w-full grow
+#__next {
+  @apply flex flex-col items-center w-full grow;
 }
 
-h1{
-  @apply text-title-1 text-dark-grey
+h1 {
+  @apply text-title-1 text-dark-grey;
 }
-h2{
-  @apply text-title-2
+h2 {
+  @apply text-title-2;
 }
-h3{
-  @apply text-title-3
+h3 {
+  @apply text-title-3;
 }
 
 a {
-  @apply no-underline text-inherit
+  @apply no-underline text-inherit;
 }
 
 * {
@@ -36,7 +36,7 @@ a {
 }
 
 input[type="date"]::-webkit-calendar-picker-indicator {
-  @apply w-full h-[100%]
+  @apply w-full h-[100%];
 }
 
 @-webkit-keyframes rotating /* Safari and Chrome */ {
@@ -75,8 +75,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   animation: rotating 2s linear infinite;
 }
 
-
 @keyframes pathStroke {
-  0% {  stroke-dashoffset: -288.5; }
-  100% { stroke-dashoffset: 0; }
+  0% {
+    stroke-dashoffset: -288.5;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
 }

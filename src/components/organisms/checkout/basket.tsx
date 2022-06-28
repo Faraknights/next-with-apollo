@@ -7,31 +7,42 @@ import SummaryCheckout from '../../../components/molecules/checkout/summaryCheck
 import Card from '../../../components/atoms/general/card';
 import { Login } from '../../../pages/api/login';
 
-interface BasketPageProps{
-	basket: Basket;
-	setBasket: Dispatch<SetStateAction<Basket>>;
-	login: Login;
-	setPurchaseProcessPage: Dispatch<SetStateAction<number>>;
-	setClickConnection: Dispatch<SetStateAction<boolean>>;
-	router: NextRouter;
+interface BasketPageProps {
+  basket: Basket;
+  setBasket: Dispatch<SetStateAction<Basket>>;
+  login: Login;
+  setPurchaseProcessPage: Dispatch<SetStateAction<number>>;
+  setClickConnection: Dispatch<SetStateAction<boolean>>;
+  router: NextRouter;
 }
 
 export default function BasketPage(options: BasketPageProps) {
-	const {basket, setBasket, login, setPurchaseProcessPage, setClickConnection, router} = options
+  const {
+    basket,
+    setBasket,
+    login,
+    setPurchaseProcessPage,
+    setClickConnection,
+    router,
+  } = options;
 
-	const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
-	function removeProduct(indexCommerce: number, indexProduct:number){
-		setBasket(e => {
-			let basketCopy =  {...basket} as Basket
-			basketCopy.edges[indexCommerce].products = basketCopy.edges[indexCommerce].products.filter((_, i) => i!=indexProduct)
-			if(!basketCopy.edges[indexCommerce].products.length){
-				basketCopy.edges = basketCopy.edges.filter((_, i) => indexCommerce!=i)
-			}
-			localStorage.setItem("basket", JSON.stringify(basketCopy))
-			return basketCopy;
-		})
-	}
+  function removeProduct(indexCommerce: number, indexProduct: number) {
+    setBasket((e) => {
+      let basketCopy = { ...basket } as Basket;
+      basketCopy.edges[indexCommerce].products = basketCopy.edges[
+        indexCommerce
+      ].products.filter((_, i) => i != indexProduct);
+      if (!basketCopy.edges[indexCommerce].products.length) {
+        basketCopy.edges = basketCopy.edges.filter(
+          (_, i) => indexCommerce != i
+        );
+      }
+      localStorage.setItem("basket", JSON.stringify(basketCopy));
+      return basketCopy;
+    });
+  }
 
   return (
 		<div className="min-w-full h-full flex flex-col items-center">
