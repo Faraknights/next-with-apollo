@@ -57,6 +57,16 @@ export default function ContactInformation() {
     }
     if (login && login.jwt) GetUser();
   }, [loginReady]);
+  
+	useEffect(() => {
+		if(login && !login?.jwt)
+			Router.push("basket")
+  }, []);
+
+	useEffect(() => {
+		if(login && !login?.jwt)
+			Router.push("basket")
+	}, [login])
 
   return (
 		<Layout title='Coordonnées'>

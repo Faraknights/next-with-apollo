@@ -24,6 +24,15 @@ export default function ConfirmPage() {
 	const timeGap = 30
   
   const { login } = useUser();
+	useEffect(() => {
+		if(login && !login?.jwt)
+			Router.push("basket")
+  }, []);
+
+	useEffect(() => {
+		if(login && !login?.jwt)
+			Router.push("basket")
+	}, [login])
 
   return (
 		<Layout title='Confirmation'>

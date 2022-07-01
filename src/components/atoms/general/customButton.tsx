@@ -10,6 +10,7 @@ interface customButtonProps {
 	label: string;
 	submitButton?: boolean
 	unfilled?: boolean
+	colorLoading?: string
 }
 
 interface colorProps {
@@ -36,7 +37,7 @@ interface colorProps {
 }
 
 export default function CustomButton(options : customButtonProps) {
-	const {icon, onClick, disabled, color, label, submitButton, loading, unfilled} = options
+	const {icon, onClick, disabled, color, label, submitButton, loading, unfilled, colorLoading} = options
 	let colors = {
 		text: {
 			default: "text-white",
@@ -82,6 +83,7 @@ export default function CustomButton(options : customButtonProps) {
 			colors.border.unfilledDisable = "border-light-grey-2"
 			break;
 	}
+	console.log(colorLoading)
 	return (
 		<button
 			type={submitButton ? "submit": "button"}
@@ -97,7 +99,7 @@ export default function CustomButton(options : customButtonProps) {
 				<div className="flex items-center justify-center">
 					<Loading
 						background={(!!unfilled ? colors.background.unfilled : (!!disabled ? colors.background.defaultDisable : colors.background.default))}
-						mode="black"
+						color={ colorLoading || "black"}
 						size={20}
 					/>
 					<span className="ml-3">Chargment...</span>

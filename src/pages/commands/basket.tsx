@@ -12,14 +12,6 @@ import SummaryCheckout from '../../components/molecules/checkout/summaryCheckout
 import Card from '../../components/atoms/general/card';
 
 export default function BasketPage() {
-  /*const {
-    basket,
-    setBasket,
-    login,
-    setPurchaseProcessPage,
-    router,
-  } = options;*/
-
   //on charge le panier
   const [basket, setBasket] = useState({ edges: [] } as Basket);
   useEffect(() => {
@@ -47,6 +39,7 @@ export default function BasketPage() {
   }
 
   const { login } = useUser();
+	const [commercesButton, setCommercesButton] = useState(false)
 
   return (
     <Layout title="Mon panier">
@@ -70,6 +63,12 @@ export default function BasketPage() {
 												color='secondaryColor'
 												icon={<AddSVG/>}
 												unfilled={true}
+												loading={commercesButton}
+												onClick={e => {
+													setCommercesButton(true)
+													Router.push('/commerces/1')
+												}}
+												colorLoading={"#ff5858"}
 											/>
 										</div>
 										{ basket.edges.map ((basketCommerce, i) => (
@@ -111,7 +110,9 @@ export default function BasketPage() {
 																		})
 																	}
 																}}
-															>-</button>
+															>
+																<div className='h-[2px] w-2 bg-white'/>
+															</button>
 															<span className='mx-2'>{ccProduct.quantity}</span>
 															<button 
 																className='h-5 w-5 rounded-full bg-primary-color text-white flex items-center justify-center text-lg font-bold'
@@ -123,7 +124,12 @@ export default function BasketPage() {
 																		return basketCopy;
 																	})
 																}}
-															>+</button>
+															>
+																<div className='h-[2px] w-2 relative'>
+																	<div className='absolute h-full w-full bg-white'/>
+																	<div className='absolute h-full w-full bg-white rotate-90'/>
+																</div>
+															</button>
 														</div>
 													</div>
 												))}

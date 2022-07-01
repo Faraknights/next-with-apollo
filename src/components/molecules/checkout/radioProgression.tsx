@@ -5,7 +5,7 @@ interface RadioProgressionProps {
 
 export default function RadioProgression({currentPos, structure} : RadioProgressionProps) {
 	return (
-		<div className="h-[3px] bg-primary-color-lightened w-full relative my-10">
+		<div className="h-[3px] bg-primary-color-lightened w-full relative my-10 mb-14">
 			<div className="absolute w-full flex">
 				{ structure.map((name, i) => i + 1 >= structure.length || (
 					<div key={name + i.toString()} className="w-full h-[3px]">
