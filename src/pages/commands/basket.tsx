@@ -45,7 +45,19 @@ export default function BasketPage() {
     <Layout title="Mon panier">
       <div className="w-1/2">
         <RadioProgression
-          structure={["Panier", "Créneaux", "Coordonnées", "Confirmation"]}
+          structure={[{
+						label: "Panier",
+						link: "/commands/basket"
+					},{
+						label: "Créneaux",
+						link: "/commands/time_slot"
+					},{
+						label: "Coordonnées",
+						link: "/commands/contact_information"
+					},{
+						label: "Confirmation",
+						link: "/commands/confirm"
+					}]}
           currentPos={1}
         />
       </div>
@@ -55,7 +67,7 @@ export default function BasketPage() {
 					{ basket.edges.length !== 0 ? (
 							<>
 								<div className='flex lg:flex-row flex-col w-full items-center lg:items-start justify-start lg:justify-center'>
-									<div className='bg-white mt-3 p-4 rounded-lg lg:w-[45rem] md:w-1/2 flex flex-col shadow-md'>
+									<div className='bg-white mt-3 p-4 rounded-lg lg:w-[700px] w-[80%] flex flex-col shadow-md'>
 										<div className='mb-3 flex items-center'>
 											<h3 className='mr-3'>Vos articles</h3>
 											<CustomButton 
@@ -136,24 +148,24 @@ export default function BasketPage() {
 											</div>
 										))}
 									</div>
-									<div className='w-1/2 lg:w-60 lg:ml-3' >
+									<div className='w-[80%] lg:w-[300px] lg:ml-5' >
 										<SummaryCheckout basket={basket}/>
+										<div className='mt-4 w-full flex flex-col mb-5'>
+											<CustomButton 
+												disabled={basket.edges.length === 0}
+												loading={loading} 
+												color="secondaryColor"
+												label="Passer ma commande"
+												onClick={e => {
+													if( login && !login.jwt){
+														setClickConnection(true)
+													} else {
+														Router.push("time_slot")
+													}
+												}}
+											/>
+										</div>
 									</div> 
-								</div>
-								<div className='mt-4'>
-									<CustomButton 
-										disabled={basket.edges.length === 0}
-										loading={loading} 
-										color="secondaryColor"
-										label="Passer ma commande"
-										onClick={e => {
-											if( login && !login.jwt){
-												setClickConnection(true)
-											} else {
-												Router.push("time_slot")
-											}
-										}}
-									/>
 								</div>
 							</>
 					) : (

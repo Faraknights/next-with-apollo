@@ -53,7 +53,19 @@ export default function TimeSlotPage() {
 		<Layout title='Créneaux'>
 			<div className="w-1/2">
 				<RadioProgression
-					structure={["Panier", "Créneaux", "Coordonnées", "Confirmation"]}
+					structure={[{
+						label: "Panier",
+						link: "/commands/basket"
+					},{
+						label: "Créneaux",
+						link: "/commands/time_slot"
+					},{
+						label: "Coordonnées",
+						link: "/commands/contact_information"
+					},{
+						label: "Confirmation",
+						link: "/commands/confirm"
+					}]}
 					currentPos={2}
 				/>
 			</div>
@@ -93,9 +105,25 @@ export default function TimeSlotPage() {
 								style={{transform: "translateX(" + ((-page) * 100).toString() + "%)"}}
 							>
 								<div className='flex flex-col bg-white w-full  shadow-md rounded-lg'>
-									<span className='text-center my-4 text-xl'>Choix du créneau de retrait pour <b>{basketCommerce.commerce.name}</b></span>
+									<span className='text-center my-4 text-title-3 text-dark-grey'>Choix du créneau de retrait pour <b>{basketCommerce.commerce.name}</b></span>
 									<div className='m-3 flex flex-col items-center'>
-										<div className='flex justify-between w-full'>
+										<div className='flex justify-between w-full px-4'>
+											{/* Bouton de selection de date */}
+											<InputDate
+												min={min}
+												max={max}
+												date={new Date(basketCommerce.pickupDate)}
+												onChange={e => {
+													setBasket((currentBasket: any) => {
+															let stateCopy =  {...currentBasket} as Basket
+															stateCopy.edges[i].pickupDate = new Date(new Date(stateCopy.edges[i].pickupDate).setFullYear(new Date(e.target.value).getFullYear()))
+															stateCopy.edges[i].pickupDate = new Date(new Date(stateCopy.edges[i].pickupDate).setMonth(new Date(e.target.value).getMonth()))
+															stateCopy.edges[i].pickupDate = new Date(new Date(stateCopy.edges[i].pickupDate).setDate(new Date(e.target.value).getDate()))
+															localStorage.setItem('basket', JSON.stringify(stateCopy))
+															return stateCopy;
+													});
+												}}
+											/>
 											<div className='h-10 flex'>
 												{/* Bouton pour au jour précédent */}
 												<button
@@ -152,22 +180,6 @@ export default function TimeSlotPage() {
 													<ArrowSVG/>
 												</button>
 											</div>
-											{/* Bouton de selection de date */}
-											<InputDate
-												min={min}
-												max={max}
-												date={new Date(basketCommerce.pickupDate)}
-												onChange={e => {
-													setBasket((currentBasket: any) => {
-															let stateCopy =  {...currentBasket} as Basket
-															stateCopy.edges[i].pickupDate = new Date(new Date(stateCopy.edges[i].pickupDate).setFullYear(new Date(e.target.value).getFullYear()))
-															stateCopy.edges[i].pickupDate = new Date(new Date(stateCopy.edges[i].pickupDate).setMonth(new Date(e.target.value).getMonth()))
-															stateCopy.edges[i].pickupDate = new Date(new Date(stateCopy.edges[i].pickupDate).setDate(new Date(e.target.value).getDate()))
-															localStorage.setItem('basket', JSON.stringify(stateCopy))
-															return stateCopy;
-													});
-												}}
-											/>
 										</div>
 									</div>
 									<div className='flex flex-col items-center overflow-auto max-h-[450px]'>

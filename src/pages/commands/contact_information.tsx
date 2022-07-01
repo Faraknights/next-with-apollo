@@ -72,7 +72,19 @@ export default function ContactInformation() {
 		<Layout title='Coordonnées'>
 			<div className="w-1/2">
 				<RadioProgression
-					structure={["Panier", "Créneaux", "Coordonnées", "Confirmation"]}
+					structure={[{
+						label: "Panier",
+						link: "/commands/basket"
+					},{
+						label: "Créneaux",
+						link: "/commands/time_slot"
+					},{
+						label: "Coordonnées",
+						link: "/commands/contact_information"
+					},{
+						label: "Confirmation",
+						link: "/commands/confirm"
+					}]}
 					currentPos={3}
 				/>
 			</div>
