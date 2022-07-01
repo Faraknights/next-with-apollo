@@ -20,6 +20,8 @@ export default function Checkout() {
   const { login } = useUser();
   if (login && !login.jwt) Router.push("/commands/basket");
 
+
+
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads
     if (login && login.jwt) {

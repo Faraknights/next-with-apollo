@@ -9,15 +9,6 @@ import Layout from '../components/organisms/structure/layout'
 export default function Main() {
 	return (
 		<Layout title='Accueil'>
-			<div className='mt-10'>
-				<Timer 
-					size={60} 
-					time={5} 
-					callback={() => {
-						console.log("Fini")
-					}}
-				/>
-			</div>
 		</Layout>
 	)
 }

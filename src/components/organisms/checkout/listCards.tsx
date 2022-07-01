@@ -4,7 +4,7 @@ import { User } from "../../../interfaces/user";
 import Card from "../../atoms/general/card";
 import CustomButton from "../../atoms/general/customButton";
 import CustomRadio from "../../atoms/general/customRadio";
-import { PageContactInformation } from "./contact_information";
+import { PageContactInformation } from "../../../pages/commands/contact_information";
 
 interface RadioProgressionProps {
 	user: User;
